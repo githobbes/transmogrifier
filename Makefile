@@ -5,10 +5,10 @@ ShellClose: ShellClose.cpp
 	$(CXX) $^ -o $@
 
 convert.o: convert.cpp
-	$(CXX) -c $(GRAPHICS_MAGICK_COMPILE_FLAGS) $^ -o $@
+	$(CXX) -c -o $@ $^ $(GRAPHICS_MAGICK_COMPILE_FLAGS)
 
 convert: convert.o
-	$(CXX) $(GRAPHICS_MAGICK_LINK_FLAGS) $^ -o $@
+	$(CXX) -o $@ $^ $(GRAPHICS_MAGICK_LINK_FLAGS)
 
 .PHONY clean:
 	$(RM) ShellClose
