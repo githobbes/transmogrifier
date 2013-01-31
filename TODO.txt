@@ -1,7 +1,5 @@
 Yet To Do:
 
-    write make file
-
     write "convert.{h, cpp}" files
 
     write "main.cpp" file
