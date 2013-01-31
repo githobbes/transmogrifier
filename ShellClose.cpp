@@ -13,7 +13,6 @@
 #include <string>
 #include <math.h>
 #include <Dense>
-#include <Magick++.h>
 
 using namespace std;
 using namespace Eigen;
