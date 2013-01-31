@@ -1,0 +1,14 @@
+Yet To Do:
+
+    write make file
+
+    write "convert.{h, cpp}" files
+
+    write "main.cpp" file
+        argument parsing
+
+    Magick++ library
+
+    Modify ShellClose.cpp to read from memory (Blob)
+
+    Read up on Git
