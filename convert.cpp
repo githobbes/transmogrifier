@@ -9,7 +9,7 @@ int main (int argc, char *argv[])
 	Image image;
 
 	image.read(argv[1]);
-
+	image.quality(0);
 	image.write(argv[2]);
 
 	return 0;
