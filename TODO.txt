@@ -5,8 +5,6 @@ Yet To Do:
     write "main.cpp" file
         argument parsing
 
-    Magick++ library
-
     Modify ShellClose.cpp to read from memory (Blob)
 
     Read up on Git
