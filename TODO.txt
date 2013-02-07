@@ -1,10 +1,14 @@
 Yet To Do:
 
-    write "convert.{h, cpp}" files
+    Push to github
+    	 add Read-Me.txt
+	 Document compilation and installation procedure
 
     write "main.cpp" file
-        argument parsing
+    	  Consider Boost.program_options
+	  Fill out skeleton
 
-    Modify ShellClose.cpp to read from memory (Blob)
+    Rename ShellClose.cpp to algorithms.cpp
+    	   Modify algorithms.cpp to read from memory (Blob)
 
     Read up on Git
