@@ -1,6 +1,7 @@
+#include "convert.hpp"
+#include <Magick++.h>
 #include <iostream>
 #include <sstream>
-#include <Magick++.h>
 
 void
 toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream)
@@ -15,7 +16,7 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
   // Also, see: http://www.graphicsmagick.org/formats.html#quality
   image.quality(0);
 
-  Blob blob;
+  Magick::Blob blob;
 
   // Writing PPM stream
   image.magick( "PPM" );  
