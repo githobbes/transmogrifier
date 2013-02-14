@@ -1,10 +1,9 @@
 Yet To Do:
 
-    Push to github
-		Document compilation and installation procedure
+    Document compilation and installation procedure
 
     write "main.cpp" file
-   		Consider Boost.program_options
-		Fill out skeleton
+   	Consider Boost.program_options
+	Fill out skeleton
 
     Modify algorithms.cpp to read from memory (Blob)
