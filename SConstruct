@@ -18,10 +18,9 @@ def get_gm_flags(for_flag):
 env = Environment()
 env.Append(PATH=os.environ['PATH'])
 
-env.Append(CXXFLAGS=get_gm_flags('cxxflags'))
-env.Replace(_CPPINCFLAGS=get_gm_flags('cppflags'))
-env.Replace(_LIBDIRFLAGS=get_gm_flags('ldflags'))
-env.Replace(_LIBFLAGS=get_gm_flags('libs'))
-
-main = env.Program(target='main', source=['main.cpp', 'convert.cpp'])
+main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
+                   CXXFLAGS=get_gm_flags('cxxflags'),
+                   _CPPINCFLAGS=get_gm_flags('cppflags'),
+                   _LIBDIRFLAGS=get_gm_flags('ldflags'),
+                   _LIBFLAGS=get_gm_flags('libs'))
 env.Default(main)
