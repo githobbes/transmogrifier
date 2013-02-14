@@ -15,3 +15,6 @@ convert
 *.lai
 *.la
 *.a
+
+# SCons hash database
+/.sconsign.dblite
