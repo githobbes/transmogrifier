@@ -1,14 +1,10 @@
 Yet To Do:
 
     Push to github
-    	 add Read-Me.txt
-	 Document compilation and installation procedure
+		Document compilation and installation procedure
 
     write "main.cpp" file
-    	  Consider Boost.program_options
-	  Fill out skeleton
+   		Consider Boost.program_options
+		Fill out skeleton
 
-    Rename ShellClose.cpp to algorithms.cpp
-    	   Modify algorithms.cpp to read from memory (Blob)
-
-    Read up on Git
+    Modify algorithms.cpp to read from memory (Blob)
