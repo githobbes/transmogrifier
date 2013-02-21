@@ -1,6 +1,17 @@
 Yet To Do:
 
+    Fix algorithms.cpp
+    	- Running sometimes?
+	- Bring in 'list'
+	- Reset file paths
+
     Document compilation and installation procedure
+
+    Vendorize Eigen
+
+    SCons builder for algorithms.cpp
+
+    ???Remove Makefile???
 
     write "main.cpp" file
    	Consider Boost.program_options
