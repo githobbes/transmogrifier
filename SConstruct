@@ -23,4 +23,7 @@ main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
                    _CPPINCFLAGS=get_gm_flags('cppflags'),
                    _LIBDIRFLAGS=get_gm_flags('ldflags'),
                    _LIBFLAGS=get_gm_flags('libs'))
+
+algorithms = env.Program(target='algorithms', source=['algorithms.cpp'],
+                         CPPPATH='#/vendor/include/eigen3')
 env.Default(main)
