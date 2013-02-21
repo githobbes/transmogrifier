@@ -16,7 +16,13 @@ def get_gm_flags(for_flag):
     return flags.rstrip('\n')
 
 env = Environment()
+# Inherit the PATH for use with GraphicsMagick++-config.
 env.Append(PATH=os.environ['PATH'])
+# Inherit CXX from the environment if it is set.
+try:
+    env.Replace(CXX=os.environ['CXX'])
+except KeyError:
+    pass
 
 main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
                    CXXFLAGS=get_gm_flags('cxxflags'),
