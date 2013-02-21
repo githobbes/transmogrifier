@@ -50,12 +50,12 @@ main(int argc, char * argv[])
     int nbhd_dim = 5;
 
     /* Import tile */
-    infile.open("../data/tile_triangle1.pgm");
+    infile.open("data/tile_triangle1.pgm");
     infile >> pre;
     infile >> width;
     infile >> height;
     infile >> tscale;
-
+    cout << height << "," << width << endl;
     MatrixXi TILE = MatrixXi::Zero((int) height + 1, (int) width + 1);
     for (int i = 1; i <= height; i++)
 	for (int j = 1; j <= width; j++) {
@@ -79,20 +79,22 @@ main(int argc, char * argv[])
     for (int x = 1; x < 60+1; x++)
     for (int y = 1; y < 58+1; y++)
 	mark[i][j][x][y] = 0;
-
-    infile.open("../data/names");
+    cout << "Hello" << endl;
+    infile.open("data/names");
+    cout << "HeLlO" << endl;
     for (int x = 0; x < 36; x++) {
 	getline(infile, name);
-
+	cout << "HELLO" << endl;
 	picfile.open(name.c_str());
 	picfile >> pre;
 	picfile >> c;
 	picfile >> r;
 	picfile >> scale;
-	
+
 	for (int i = 1; i <= r; i++) {
 	    for (int j = 1; j <= c; j++) {
-		picfile >> k; mark[shape][layer][i][j] = k;
+		picfile >> k; 
+		mark[shape][layer][i][j] = k;
 		if (mark[shape][layer][i][j] == 0)
 		    aout(shape, layer)++;
 		if (mark[shape][layer][i][j] == 255)
@@ -100,7 +102,7 @@ main(int argc, char * argv[])
 	    }
 	}
 	picfile.close();
-	
+
 	if (layer == 4) {
 	    layer = 1;
 	    shape++;
@@ -111,7 +113,7 @@ main(int argc, char * argv[])
 
 cout << "Importing original image name and dimensions..." << endl;
     /* Import original image name and dimensions */
-    infile.open("list");
+    infile.open("listIN");
     getline (infile, name);
 
     picfile.open(name.c_str());
@@ -393,12 +395,6 @@ cout << "Generate two colors for outer region..." << endl;
 	    gre2 = floor((gre-gre1*weight1) / weight2);
 	    blu2 = floor((blu-blu1*weight1) / weight2);
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight2)/weight1) << endl;
-cout << (int)((gre-255*weight2)/weight1) << endl;
-cout << (int)((blu-255*weight2)/weight1) << endl;
-cout << "HERE1" << endl; 
-}
 cout << "Setting colors into S" << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
@@ -436,12 +432,6 @@ cout << "Generate two colors for inner region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2);
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight2)/weight1) << endl;
-cout << (int)((gre-255*weight2)/weight1) << endl;
-cout << (int)((blu-255*weight2)/weight1) << endl;
-cout << "HERE2" << endl;
-}
 cout << "Setting colors into S" << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
@@ -475,12 +465,6 @@ cout << "Recursively assign average color and generate two colors for innermost 
 	    gre1 = floor((gre - gre2*weight2)/weight1);
 	    blu1 = floor((blu - blu2*weight2)/weight1);
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight2)/weight1) << endl;
-cout << (int)((gre-255*weight2)/weight1) << endl;
-cout << (int)((blu-255*weight2)/weight1) << endl;
-cout << "HERE3" << endl;
-}
 cout << "Setting colors into S" << endl;
 cout << "N: " << n << endl;
 cout << "M: " << m << endl;
@@ -555,12 +539,6 @@ cout << "Generating two colors for outer region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2); 
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight2)/weight1) << endl;
-cout << (int)((gre-255*weight2)/weight1) << endl;
-cout << (int)((blu-255*weight2)/weight1) << endl;
-cout << "HERE4" << endl;
-}
 cout << "Inputting colors into S..." << endl;
 	    for (int i = 1; i <= height; i++) 
 	    for (int j = 1; j <= width; j++) {
@@ -598,12 +576,6 @@ cout << "Generating two colors for inner region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2);
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight1)/weight2) << endl;
-cout << (int)((gre-255*weight1)/weight2) << endl;
-cout << (int)((blu-255*weight1)/weight2) << endl;
-cout << "HERE5" << endl;
-}
 cout << "Inputting into S..." << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
@@ -637,12 +609,6 @@ cout << "Recursively assign average color and generate two colors for innermost 
  	    gre1 = floor((gre - gre2*weight2) / weight1);
 	    blu1 = floor((blu - blu2*weight2) / weight1);
 
-if (red1 > 255 || red2 > 255 || gre1 > 255 || gre2 > 255 || blu1 > 255 || blu2 > 255) {
-cout << (int)((red-255*weight2)/weight1) << endl;
-cout << (int)((gre-255*weight2)/weight1) << endl;
-cout << (int)((blu-255*weight2)/weight1) << endl;
-cout << "HERE6" << endl;
-}
 cout << "Inputting into S again..." << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
@@ -667,15 +633,15 @@ cout << "Inputting into S again..." << endl;
 cout << "Determining dimensions for export..." << endl;
     /* Determine dimensions for export */
     int Rout = R-3*height/2;
-    int Cout = C-width;
-
+    int Cout = C-width
+      ;
 cout << "Exporting image..." << endl;
     /* Export image */
     ofstream mkfile;
     struct stat buf;
-    if (stat("../data/pix/shellOutput.ppm", &buf) != -1)
-	remove("../data/pix/shellOutput.ppm");
-    mkfile.open ("../data/pix/shellOutput.ppm");
+    if (stat("data/pix/shellOutput.ppm", &buf) != -1)
+	remove("data/pix/shellOutput.ppm");
+    mkfile.open ("data/pix/shellOutput.ppm");
     mkfile << "P3" << endl;
     mkfile << Cout << ' ' << Rout << endl << scale << endl;
     for (int i = 1; i <= Rout; i++) {
@@ -684,6 +650,11 @@ cout << "Exporting image..." << endl;
 	    mkfile << IMAGE(i+height/2, j) << ' ';
     }
     mkfile.close();
+
+    int num, den;
+    num = 5;
+    den = 0;
+    cout << num / den << endl;
 
 cout << "DONE!!!" << endl;
 }
