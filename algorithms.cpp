@@ -55,7 +55,7 @@ main(int argc, char * argv[])
     infile >> width;
     infile >> height;
     infile >> tscale;
-    cout << height << "," << width << endl;
+
     MatrixXi TILE = MatrixXi::Zero((int) height + 1, (int) width + 1);
     for (int i = 1; i <= height; i++)
 	for (int j = 1; j <= width; j++) {
@@ -63,8 +63,8 @@ main(int argc, char * argv[])
 	    TILE(i,j) = k;
         }
     infile.close();
-
-    /* Create dictionary of replacement marks and determine areas
+    
+	/* Create dictionary of replacement marks and determine areas
      * for weighting */
     int shape = 0;
     MatrixXd ain  = MatrixXd::Zero(9+1,4+1);
@@ -75,16 +75,16 @@ main(int argc, char * argv[])
     int layer = 1;
 
     for (int i = 1; i < 9+1; i++)
-    for (int j = 1; j < 4+1; j++)
-    for (int x = 1; x < 60+1; x++)
-    for (int y = 1; y < 58+1; y++)
-	mark[i][j][x][y] = 0;
-    cout << "Hello" << endl;
-    infile.open("data/names");
-    cout << "HeLlO" << endl;
-    for (int x = 0; x < 36; x++) {
+    	for (int j = 1; j < 4+1; j++)
+    		for (int x = 1; x < 60+1; x++)
+    			for (int y = 1; y < 58+1; y++)
+					mark[i][j][x][y] = 0;
+    
+	infile.open("data/names");
+    
+	for (int x = 0; x < 36; x++) {
 	getline(infile, name);
-	cout << "HELLO" << endl;
+	name = "data/" + name;
 	picfile.open(name.c_str());
 	picfile >> pre;
 	picfile >> c;
@@ -111,7 +111,6 @@ main(int argc, char * argv[])
     }
     infile.close();
 
-cout << "Importing original image name and dimensions..." << endl;
     /* Import original image name and dimensions */
     infile.open("listIN");
     getline (infile, name);
@@ -122,7 +121,6 @@ cout << "Importing original image name and dimensions..." << endl;
     picfile >> r;
     picfile >> scale;
 
-cout << "Determining expanded matrix dimensions..." << endl;
     /* Determine expanded matrix dimensions */
     int V, H, R, C;
     V = (int)(floor(r / (height/2)));
@@ -130,11 +128,9 @@ cout << "Determining expanded matrix dimensions..." << endl;
     R = (int)((height/2)*(V + 1));
     C = (int)(width * H);
 
-cout << "Initializing color image matrix..." << endl;
     /* Initialize color image matrix */
     MatrixXi IMAGE = MatrixXi::Zero(R+1,C*3+1);
 
-cout << "Importing color image data..." << endl;
     /* Import color image data with zeros padding top, bottom, and right */
     for (int i = 1; i <= r; i++)
 	for (int j = 1; j <= c*3; j++) {
@@ -143,7 +139,6 @@ cout << "Importing color image data..." << endl;
         }
     picfile.close();
 
-cout << "Importing grayscale image name and dimensions, then data..." << endl;
     /* Import grayscale image name and dimensions, then data */
     getline(infile, name);
     infile.close();
@@ -162,12 +157,11 @@ cout << "Importing grayscale image name and dimensions, then data..." << endl;
     }
     picfile.close();
 
-cout << "Initializing total high-pass filter matrix..." << endl;
     /* Initialize total high-pass filter matrix */
     int frow = floor(R/2);
     int fcol = floor(C/2);
     MatrixXi hpf = MatrixXi::Zero(frow+1, fcol+1);
-cout << "Filter once using bivariate Haar high-pass filters..." << endl;
+
     /* Filter once using bivariate Haar high-pass filters, summing
      * absolute values for V/H/D */
     for (int i = 1; i <= frow; i++)
@@ -177,7 +171,6 @@ cout << "Filter once using bivariate Haar high-pass filters..." << endl;
 		+ (1/2)*abs(GRAY(2*i-1,2*j-1) - GRAY(2*i-1,2*j) - GRAY(2*i,2*j-1) + GRAY(2*i,2*j));
     }
 
-cout << "Thresholding entire image and removing isolated data points..." << endl;
     /* Threshold entire image and remove isolated data points */
     for (int i = 1; i <= frow; i++)
     for (int j = 1; j <= fcol; j++)
@@ -206,7 +199,6 @@ cout << "Thresholding entire image and removing isolated data points..." << endl
  	}
     }
 
-cout << "Analyzing tiles and assigning new marks..." << endl;
     /* Analyze each tile and assign new mark */
     int datacount, orientation, hor, vert, pos, neg;
     hor = 1; vert = 2; pos = 3; neg = 4;
@@ -220,16 +212,13 @@ cout << "Analyzing tiles and assigning new marks..." << endl;
     
     for (int n = 1; n <= V; n++)
     for (int m = 1; m <= H; m++) {
-cout << "Index into image matrix" << endl;
 	/* Index into image matrix */
 	S.block(1, 1, height, 3*width) = IMAGE.block((n-1)*height/2 + 1, 3*(m-1)*width + 1, height, 3*width);
 
-cout << "Index into filter output matrix" << endl;
 	/* Index into filter output matrix */
 	fblock.block(1, 1, height/2, width/2) = hpf.block((n-1)*height/4 + 1, (m-1)*width/2 + 1, height/2, width/2);
 	datacount = 0;
 
-cout << "Count data points in filter block..." << endl;
 	/* Count data points in filter block */
 	for (int i = 1; i <= height/2; i++)
 	for (int j = 1; j <= width/2; j++) {
@@ -239,7 +228,6 @@ cout << "Count data points in filter block..." << endl;
 	Vector2d XY[871];
 
 	if (datacount <= datamin) {
-cout << "No worries! It's a circle!!!" << endl;
 	    shape = circle;
 	} else {
 	    int k = 0;
@@ -251,7 +239,6 @@ cout << "No worries! It's a circle!!!" << endl;
 		}
 	    }
  
-cout << "Calculating regression line and coefficient..." << endl;
 	    /* Calculate regression line and regression coefficient */
 	    double x_sum, y_sum, x_avg, y_avg, sumxx, sumxy;
 	    x_sum = y_sum = x_avg = y_avg = sumxx = sumxy = 0;
@@ -291,7 +278,6 @@ cout << "Calculating regression line and coefficient..." << endl;
 		rsquare = rsquare / ttl2;
 	    }
 
-cout << "Determining orientation based on slope..." << endl;
 	    /* Determine orientation based on slope (+, -, hori, vert) */
 	    if ( rsquare < r2thresh ) {
 	        shape = circle;
@@ -305,7 +291,6 @@ cout << "Determining orientation based on slope..." << endl;
 		else
 		    orientation = neg;
 
-cout << "Submatrix into pgm file and filter, retaining sign info to determine edge type..." << endl;
 	        /* Submatrix into pgm file 'Gray' and filter, retaining sign info to determine edge type */
 	        MatrixXi typefilter = GRAY.block((int)((n-1)*height/2 + 1), (int)((m-1)*width + 1), height, width);
 	        VectorXd filterlist = VectorXd::Zero(int (width*height/4) + 1);
@@ -343,7 +328,6 @@ cout << "Submatrix into pgm file and filter, retaining sign info to determine ed
 	    }
         }
  
-cout << "---Beginning color-picking algorithm---" << endl;
 	/* Begin color-picking algorithm */
 	int rout, gout, bout, rin, gin, bin, red, red1, red2, gre, gre1, gre2, blu, blu1, blu2;
 	rout = gout = bout = rin = gin = bin = 0;
@@ -372,7 +356,6 @@ cout << "---Beginning color-picking algorithm---" << endl;
 	    gin = (int)(gin / ain(shape, 2));
 	    bin = (int)(bin / ain(shape, 2));
 
-cout << "Generate two colors for outer region..." << endl;
 	    /* Generate two colors for outer region */
 	    red = rout;
 	    gre = gout;
@@ -395,7 +378,6 @@ cout << "Generate two colors for outer region..." << endl;
 	    gre2 = floor((gre-gre1*weight1) / weight2);
 	    blu2 = floor((blu-blu1*weight1) / weight2);
 
-cout << "Setting colors into S" << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
 		if (mark[shape][1][i][j] == 0) {
@@ -409,7 +391,6 @@ cout << "Setting colors into S" << endl;
 		}
 	    }
 
-cout << "Generate two colors for inner region..." << endl;
 	    /* Generate two colors for inner region */
 	    red = rin;
 	    gre = gin;
@@ -432,7 +413,6 @@ cout << "Generate two colors for inner region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2);
 
-cout << "Setting colors into S" << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
 		if (mark[shape][2][i][j] == 255) {
@@ -442,7 +422,6 @@ cout << "Setting colors into S" << endl;
 		}		
     	    }		
 
-cout << "Recursively assign average color and generate two colors for innermost layers..." << endl;
 	    /* Recursively assign average color and generate two colors for innermost layers */
 	    red = max(0, red2);
 	    gre = max(0, gre2);
@@ -465,9 +444,6 @@ cout << "Recursively assign average color and generate two colors for innermost 
 	    gre1 = floor((gre - gre2*weight2)/weight1);
 	    blu1 = floor((blu - blu2*weight2)/weight1);
 
-cout << "Setting colors into S" << endl;
-cout << "N: " << n << endl;
-cout << "M: " << m << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
 		if (mark[shape][4][i][j] == 255) {
@@ -487,7 +463,6 @@ cout << "M: " << m << endl;
 	    }
 
 	} else {
-cout << "In else - For tiles in an 'odd' position" << endl;
 	    /* For tiles in an 'odd' position (left-pointing triangles) */
 	    if (shape > 1) {
 	        if (shape % 2 == 0)
@@ -516,7 +491,6 @@ cout << "In else - For tiles in an 'odd' position" << endl;
 	    gin = (int)(gin/ain(shape, 2));
 	    bin = (int)(bin/ain(shape, 2));
 
-cout << "Generating two colors for outer region..." << endl;
 	    /* Generate two colors for outer region */
 	    red = rout;
 	    gre = gout;
@@ -539,7 +513,6 @@ cout << "Generating two colors for outer region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2); 
 
-cout << "Inputting colors into S..." << endl;
 	    for (int i = 1; i <= height; i++) 
 	    for (int j = 1; j <= width; j++) {
 	        if (mark[shape][1][i][j] == 0) {
@@ -553,7 +526,6 @@ cout << "Inputting colors into S..." << endl;
 	        }
 	    }
 
-cout << "Generating two colors for inner region..." << endl;
 	    /* Generate two colors for inner region */
 	    red = rin;
 	    gre = gin;
@@ -576,7 +548,6 @@ cout << "Generating two colors for inner region..." << endl;
 	    gre2 = floor((gre - gre1*weight1)/weight2);
 	    blu2 = floor((blu - blu1*weight1)/weight2);
 
-cout << "Inputting into S..." << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
 	        if (mark[shape][2][i][j] == 255) {
@@ -586,14 +557,13 @@ cout << "Inputting into S..." << endl;
 	        }
 	    }
 
-cout << "Recursively assign average color and generate two colors for innermost layers..." << endl;
 	    /* Recursively assign average color and generate two colors for innermost layers */
 	    red = max(0, red2);
 	    gre = max(0, gre2);
 	    blu = max(0, blu2);
 	    weight1 = (ain(shape, 3) - ain(shape, 4)) / ain(shape, 3);
 	    weight2 = ain(shape, 4) / ain(shape, 3);
-	    red2 = rand() % (1 + abs(max(0, max(red - rrange,(int)((red - 255 * weight2) / weight1)))
+	    red2 = rand() % (1 + abs(max(0, max(red - rrange, (int)((red - 255 * weight2) / weight1)))
 			  - min(255, min(red + rrange, (int)(red / weight2)))));
 	    red2 += min(max(0, max(red - rrange, (int)((red - 255 * weight2) / weight1))),
 			min(255, min(red + rrange, (int)(red / weight2))));
@@ -609,7 +579,6 @@ cout << "Recursively assign average color and generate two colors for innermost 
  	    gre1 = floor((gre - gre2*weight2) / weight1);
 	    blu1 = floor((blu - blu2*weight2) / weight1);
 
-cout << "Inputting into S again..." << endl;
 	    for (int i = 1; i <= height; i++)
 	    for (int j = 1; j <= width; j++) {
 	        if (mark[shape][4][i][j] == 255) {
@@ -630,12 +599,10 @@ cout << "Inputting into S again..." << endl;
 	}
     }
 
-cout << "Determining dimensions for export..." << endl;
     /* Determine dimensions for export */
     int Rout = R-3*height/2;
     int Cout = C-width
       ;
-cout << "Exporting image..." << endl;
     /* Export image */
     ofstream mkfile;
     struct stat buf;
@@ -650,11 +617,4 @@ cout << "Exporting image..." << endl;
 	    mkfile << IMAGE(i+height/2, j) << ' ';
     }
     mkfile.close();
-
-    int num, den;
-    num = 5;
-    den = 0;
-    cout << num / den << endl;
-
-cout << "DONE!!!" << endl;
 }
