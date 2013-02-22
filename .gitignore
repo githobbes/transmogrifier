@@ -1,6 +1,6 @@
 # My executables
-ShellClose
-convert
+main
+algorithms
 
 # Compiled Object files
 *.slo
