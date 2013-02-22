@@ -1,7 +1,9 @@
 # -*- mode: python -*-
 # SCons build file
 
+from __future__ import print_function
 import os
+import sys
 import subprocess
 
 
@@ -33,3 +35,18 @@ main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
 algorithms = env.Program(target='algorithms', source=['algorithms.cpp'],
                          CPPPATH='#/vendor/include/eigen3')
 env.Default(main)
+
+# Extra commands
+
+
+def beautify_code(env, target, source):
+    # Indent with tab characters.
+    try:
+        subprocess.check_call(['astyle', '--indent=tab'] +
+                              [str(s) for s in source])
+    except OSError:
+        print("The `astyle' executable was not found. "
+              "Install it from <http://astyle.sf.net/> before continuing.",
+              file=sys.stderr)
+
+env.AlwaysBuild(env.Command('beautify', Glob('*.[hc]pp'), beautify_code))
