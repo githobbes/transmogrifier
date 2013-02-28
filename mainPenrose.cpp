@@ -82,7 +82,8 @@ main (int argc, char * argv[]) {
 	}
 
 	// Iterating through the Penrose tiling algorithm...
-	for(int k = 0; k < 5; k++) {
+	for(int k = 0; k < 6; k++) {
+		cout << "Here" << endl;
 		for (int j = 0; j < matH; j++) {
 			for (int i = 0; i < matW; i++) {
 				if ((j > ((shortLeg)/longLeg) * (0 - i) + shortLeg &&

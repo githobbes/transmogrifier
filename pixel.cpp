@@ -27,10 +27,6 @@ class Pixel {
 	// Otherwise, the P's correspond to the only other point and the Q's are null.
 	double X1, X2, X3, Y1, Y2, Y3, P1, P2, Q1, Q2;
 
-	// The following will be used for comparing a Pixel's location to that of the
-	// the rest of the Pixels (and thus, the triangle which encompasses it).
-	double triClose, sqrClose, triOpen, sqrOpen, circClose, circOpen;
-
 public:
 
 	int
@@ -184,13 +180,6 @@ public:
 				}
 			}
 		}
-
-		triClose = tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2;
-		sqrClose = tan((0 - 90 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2;
-		triOpen = tan((18 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2;
-		sqrOpen = tan((0 - 18 + (36 * triType[2]))/(180 / M_PI))*(X - X1) + Y1;
-		circClose = tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2;
-		circOpen = tan((54 + (36 * triType[2]))/(180 / M_PI))*(X - X3) + Y3;
 	}
 
 	void
@@ -201,7 +190,7 @@ public:
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
 			}
-			else if ( Y > triClose ) {
+			else if ( Y > tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[2] = (triType[2] + 6) % 10;
 				setVertices(X2, Y2, P1, P2, X1, Y1);
 			}
@@ -213,12 +202,12 @@ public:
 			}
 		}
 		else if ((triType[2] == 1) || (triType[2] == 2) || (triType[2] == 3)) {
-			if ( Y < sqrClose ) {
+			if ( Y < tan((0 - 90 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 1;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
 			}
-			else if ( Y > triClose ) {
+			else if ( Y > tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[2] = (triType[2] + 6) % 10;
 				setVertices(X2, Y2, P1, P2, X1, Y1);
 			}
@@ -230,7 +219,7 @@ public:
 			}
 		}
 		else if ( triType [2] == 4 ) {
-			if ( Y < sqrClose ) {
+			if ( Y < tan((0 - 90 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 1;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
@@ -252,7 +241,7 @@ public:
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
 			}
-			else if ( Y < triClose ) {
+			else if ( Y < tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[2] = (triType[2] + 6) % 10;
 				setVertices(X2, Y2, P1, P2, X1, Y1);
 			}
@@ -264,12 +253,12 @@ public:
 			}
 		}
 		else if ( (triType[2] == 6) || (triType[2] == 7) || (triType[2] == 8) ) {
-			if ( Y > sqrClose ) {
+			if ( Y > tan((0 - 90 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 1;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
 			}
-			else if ( Y < triClose ) {
+			else if ( Y < tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[2] = (triType[2] + 6) % 10;
 				setVertices(X2, Y2, P1, P2, X1, Y1);
 			}
@@ -281,7 +270,7 @@ public:
 			}
 		}
 		else {
-			if ( Y > sqrClose ) {
+			if ( Y > tan((0 - 90 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 1;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(Q1, Q2, X3, Y3, P1, P2);
@@ -307,7 +296,7 @@ public:
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
 			}
-			else if ( Y > sqrOpen ) {
+			else if ( Y > tan((0 - 18 + (36 * triType[2]))/(180 / M_PI))*(X - X1) + Y1 ) {
 				triType[2] = (triType[2] + 4) % 10;
 				setVertices(P1, P2, X1, Y1, X2, Y2);
 			}
@@ -319,7 +308,7 @@ public:
 			}
 		}
 		else if ( triType[2] == 3 ) {
-			if ( Y > triOpen ) {
+			if ( Y > tan((18 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 0;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
@@ -336,12 +325,12 @@ public:
 			}
 		}
 		else if ( triType[2] > 3 && triType[2] < 7 ) {
-			if ( Y > triOpen ) {
+			if ( Y > tan((18 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 0;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
 			}
-			else if ( Y < sqrOpen ) {
+			else if ( Y < tan((0 - 18 + (36 * triType[2]))/(180 / M_PI))*(X - X1) + Y1 ) {
 				triType[2] = (triType[2] + 4) % 10;
 				setVertices(P1, P2, X1, Y1, X2, Y2);
 			}
@@ -358,7 +347,7 @@ public:
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
 			}
-			else if ( Y < sqrOpen ) {
+			else if ( Y < tan((0 - 18 + (36 * triType[2]))/(180 / M_PI))*(X - X1) + Y1 ) {
 				triType[2] = (triType[2] + 4) % 10;
 				setVertices(P1, P2, X1, Y1, X2, Y2);
 			}
@@ -370,7 +359,7 @@ public:
 			}
 		}
 		else if ( triType[2] == 8 ) {
-			if ( Y < triOpen ) {
+			if ( Y < tan((18 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 0;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
@@ -387,12 +376,12 @@ public:
 			}
 		}
 		else {
-			if ( Y < triOpen ) {
+			if ( Y < tan((18 + (36 * triType[2]))/(180 / M_PI))*(X - P1) + P2 ) {
 				triType[1] = 0;
 				triType[2] = (triType[2] + 5) % 10;
 				setVertices(X3, Y3, Q1, Q2, P1, P2);
 			}
-			else if ( Y > sqrOpen ) {
+			else if ( Y > tan((0 - 18 + (36 * triType[2]))/(180 / M_PI))*(X - X1) + Y1 ) {
 				triType[2] = (triType[2] + 4) % 10;
 				setVertices(P1, P2, X1, Y1, X2, Y2);
 			}
@@ -428,7 +417,7 @@ public:
 			}
 		}
 		else if ( triType[2] < 4 ) {
-			if ( Y < circClose ) {
+			if ( Y < tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[0] = 0;
 				triType[2] = (triType[2] + 3) % 10;
 				setVertices(X1, Y1, P1, P2, X2, Y2);
@@ -438,7 +427,7 @@ public:
 			}
 		}
 		else {
-			if ( Y > circClose ) {
+			if ( Y > tan((0 - 54 + (36 * triType[2]))/(180 / M_PI))*(X - X2) + Y2 ) {
 				triType[0] = 0;
 				triType[2] = (triType[2] + 3) % 10;
 				setVertices(X1, Y1, P1, P2, X2, Y2);
@@ -472,7 +461,7 @@ public:
 			}
 		}
 		else if (triType[2] < 6 && triType[2] > 1 ) {
-			if ( Y > circOpen ) {
+			if ( Y > tan((54 + (36 * triType[2]))/(180 / M_PI))*(X - X3) + Y3 ) {
 				triType[0] = 0;
 				triType[2] = (triType[2] + 9) % 10;
 				setVertices(P1, P2, X1, Y1, X3, Y3);
@@ -482,7 +471,7 @@ public:
 			}
 		}
 		else {
-			if ( Y < circOpen ) {
+			if ( Y < tan((54 + (36 * triType[2]))/(180 / M_PI))*(X - X3) + Y3 ) {
 				triType[0] = 0;
 				triType[2] = (triType[2] + 9) % 10;
 				setVertices(P1, P2, X1, Y1, X3, Y3);
