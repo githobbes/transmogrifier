@@ -34,6 +34,9 @@ main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
 
 algorithms = env.Program(target='algorithms', source=['algorithms.cpp'],
                          CPPPATH='#/vendor/include/eigen3')
+
+penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
+
 env.Default(main)
 
 # Extra commands
