@@ -6,12 +6,13 @@
  * accounts: phillimj
  */
 
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include <sys/stat.h>
 #include <cstdlib>
 #include <fstream>
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <Eigen/Dense>
 
 using namespace std;
