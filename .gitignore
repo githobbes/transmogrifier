@@ -19,3 +19,6 @@ penrose
 
 # SCons hash database
 /.sconsign.dblite
+
+# Artistic Style original files
+*.orig
