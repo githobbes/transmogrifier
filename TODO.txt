@@ -1,8 +1,5 @@
 Yet To Do:
 
-    Fix algorithms.cpp
-    	- Running sometimes?
-
     Document compilation and installation procedure
 
     ???Remove Makefile???
@@ -12,3 +9,7 @@ Yet To Do:
 	Fill out skeleton
 
     Modify algorithms.cpp to read from memory (Blob)
+
+    libtransmogrify
+	Create static and shared library
+	Python binding
