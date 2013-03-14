@@ -2,11 +2,19 @@ Yet To Do:
 
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
 
+    Check that the input file exists
+
     Add -h and --help options that print usage.
 
     Add logging - verbosity flag
         Proposed Boost.Log is too heavy for our purposes
         Just using std::clog
+
+    Check for other file errors
+        Output file exists
+        Can't write to output file
+        Can't read from the input file
+        Catch GraphicsMagick errors
 
     CGI/PHP website on EOS
 
