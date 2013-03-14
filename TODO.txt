@@ -5,8 +5,9 @@ Yet To Do:
     ???Remove Makefile???
 
     write "main.cpp" file
-   	Consider Boost.program_options
 	Fill out skeleton
+
+    Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
 
     Modify algorithms.cpp to read from memory (Blob)
 
