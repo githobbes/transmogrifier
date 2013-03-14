@@ -1,6 +1,7 @@
 # My executables
 main
 algorithms
+penrose
 
 # Compiled Object files
 *.slo
@@ -18,3 +19,6 @@ algorithms
 
 # SCons hash database
 /.sconsign.dblite
+
+# Artistic Style original files
+*.orig
