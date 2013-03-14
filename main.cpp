@@ -55,13 +55,13 @@ main (int argc, char *argv[])
 	toPixelMap(inputImgName, ppmStream, pgmStream);
 
 	// Create output file
-	std::ofstream outputImg(outputImgName.c_str());
+	std::stringstream outputImg;
 
 	// Run algorithm on PPM input to produce PPM
 	penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
 
-	outputImg.close();
 	// Convert PPM to PNG
+	writeImage(outputImg, outputImgName);
 
 	return 0;
 }

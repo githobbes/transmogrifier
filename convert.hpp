@@ -9,6 +9,6 @@ void
 toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream);
 
 void
-toPNG(const std::istream& ppmStream, const std::string& pngImgName);
+writeImage(const std::stringstream& ppmStream, const std::string& pngImgName);
 
 #endif /* CONVERT_HPP */

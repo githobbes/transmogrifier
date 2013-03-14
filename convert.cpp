@@ -28,3 +28,14 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
 	image.write( &blob );
 	pgmStream << (char*) blob.data();
 }
+
+void
+writeImage(const std::stringstream& ppmStream, const std::string& pngImgName) 
+{
+  std::string str = ppmStream.str();
+  Magick::Blob blob( (void*) str.c_str(), str.length());
+
+  Magick::Image image( blob );
+
+  image.write(pngImgName);
+}
