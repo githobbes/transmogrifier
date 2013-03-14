@@ -37,8 +37,8 @@ main = env.Program(target='main', source=['main.cpp', 'convert.cpp', os.path.joi
                    _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
                    _LIBFLAGS=get_gm_flags('libs'))
 
-algorithms = env.Program(target='algorithms', source=['algorithms.cpp'],
-                         CPPPATH='#/vendor/include/eigen3')
+chuck = env.Program(target='chuck', source=['mainChuck.cpp'],
+                    CPPPATH='#/vendor/include/eigen3')
 
 penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
 
