@@ -249,7 +249,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 		}
 	}
 
-	cout << "Writing penpic.ppm" << std::endl;
+	cout << "Writing new imagex" << std::endl;
 	outputPPMStream << "P3" << std::endl;
 	outputPPMStream << width << " " << height << std::endl;
 	outputPPMStream << scale << std::endl;
