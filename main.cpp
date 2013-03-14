@@ -39,7 +39,7 @@ main (int argc, char *argv[])
   catch(po::error& e) {
     std::cerr << e.what() << "\n\n" << "Usage: " << argv[0] << " [options] INPUT_IMAGE OUTPUT_IMAGE\n" << genericOptions << std::endl;
 
-    return -1;
+    return 1;
   }
 
   std::cout << vm["input-image"].as<std::string>() << std::endl;
