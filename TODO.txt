@@ -10,6 +10,8 @@ Yet To Do:
 
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
 
+    Doxygen documentation.
+
     Windows compatability
 
     CGI/PHP website on EOS
