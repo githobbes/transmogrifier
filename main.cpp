@@ -1,6 +1,8 @@
 #include "convert.hpp"
+#include "algorithms.hpp"
 #include <Magick++.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <boost/program_options.hpp>
 
@@ -9,6 +11,7 @@ namespace po = boost::program_options;
 int
 main (int argc, char *argv[])
 {
+	Magick::InitializeMagick(*argv);
 
 	po::options_description genericOptions("Allowed options");
 	genericOptions.add_options()
@@ -42,29 +45,21 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	std::cout << vm["input-image"].as<std::string>() << std::endl;
-	std::cout << vm["output-image"].as<std::string>() << std::endl;
-	return 0;
-
-	Magick::InitializeMagick(*argv);
-
-	// Parse command-line arguments
-	if (argc != 3) {
-		std::cerr << "Usage: " << argv[0] << " INPUT_IMAGE OUTPUT_IMAGE" << std::endl;
-		return 1;
-	}
-	std::string inputImgName(argv[1]);
-	std::string outputImgName(argv[2]);
+	std::string inputImgName = vm["input-image"].as<std::string>();
+	std::string outputImgName = vm["output-image"].as<std::string>();
 
 	// Convert image to PPM/PGM
 	std::stringstream ppmStream;
 	std::stringstream pgmStream;
 	toPixelMap(inputImgName, ppmStream, pgmStream);
 
-	std::cout << ppmStream.str() << std::endl;
+	// Create output file
+	std::ofstream outputImg(outputImgName.c_str());
 
-	// Run algorithm on PPM/PGM input to produce PPM
+	// Run algorithm on PPM input to produce PPM
+	penroseChuck(ppmStream, outputImg, 7);
 
+	outputImg.close();
 	// Convert PPM to PNG
 
 	return 0;
