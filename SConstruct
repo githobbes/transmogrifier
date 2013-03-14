@@ -3,6 +3,7 @@
 
 from __future__ import print_function
 import os
+import os.path
 import sys
 import subprocess
 
@@ -26,10 +27,14 @@ try:
 except KeyError:
     pass
 
-main = env.Program(target='main', source=['main.cpp', 'convert.cpp'],
+local_dir = os.path.join(os.environ['HOME'], '.local')
+local_include_dir = os.path.join(local_dir, 'include')
+local_lib_dir = os.path.join(local_dir, 'lib')
+
+main = env.Program(target='main', source=['main.cpp', 'convert.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')],
                    CXXFLAGS=get_gm_flags('cxxflags'),
-                   _CPPINCFLAGS=get_gm_flags('cppflags'),
-                   _LIBDIRFLAGS=get_gm_flags('ldflags'),
+                   _CPPINCFLAGS=get_gm_flags('cppflags') + ' -I' + local_include_dir,
+                   _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
                    _LIBFLAGS=get_gm_flags('libs'))
 
 algorithms = env.Program(target='algorithms', source=['algorithms.cpp'],
