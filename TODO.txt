@@ -1,17 +1,20 @@
 Yet To Do:
 
+    Add logging - verbosity flag
+
     Document compilation and installation procedure
 
     ???Remove Makefile???
-
-    write "main.cpp" file
-	Fill out skeleton
 
     Add -h and --help options that print usage.
 
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
 
-    Modify algorithms.cpp to read from memory (Blob)
+    Windows compatability
+
+    CGI/PHP website on EOS
+
+    Modify Chuck Close algorithm to read from memory (Blob)
 
     libtransmogrify
 	Create static and shared library
