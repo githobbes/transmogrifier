@@ -7,6 +7,8 @@ Yet To Do:
     write "main.cpp" file
 	Fill out skeleton
 
+    Add -h and --help options that print usage.
+
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
 
     Modify algorithms.cpp to read from memory (Blob)
