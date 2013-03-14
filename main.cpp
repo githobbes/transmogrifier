@@ -15,9 +15,10 @@ main (int argc, char *argv[])
 
 	po::options_description genericOptions("Allowed options");
 	genericOptions.add_options()
-	("version,V", "print program version")
-	("input-image", po::value<std::string>()->required(), "image to be transmogrified")
-	("output-image", po::value<std::string>()->required(), "location of transmogrified image")
+	  ("version,V", "print program version")
+	  ("input-image", po::value<std::string>()->required(), "image to be transmogrified")
+	  ("output-image", po::value<std::string>()->required(), "location of transmogrified image")
+	  ("iterations,i", po::value<unsigned>()->default_value(8), "number of iterations")
 	;
 
 	po::positional_options_description positionalOptions;
@@ -57,7 +58,7 @@ main (int argc, char *argv[])
 	std::ofstream outputImg(outputImgName.c_str());
 
 	// Run algorithm on PPM input to produce PPM
-	penroseChuck(ppmStream, outputImg, 7);
+	penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
 
 	outputImg.close();
 	// Convert PPM to PNG
