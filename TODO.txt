@@ -1,20 +1,24 @@
 Yet To Do:
 
+    Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
+
+    Add -h and --help options that print usage.
+
     Add logging - verbosity flag
+        Proposed Boost.Log is too heavy for our purposes
+        Just using std::clog
+
+    CGI/PHP website on EOS
+
+    Go through functions and optimize code/check for memory leaks
 
     Document compilation and installation procedure
 
     ???Remove Makefile???
 
-    Add -h and --help options that print usage.
-
-    Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
-
     Doxygen documentation.
 
     Windows compatability
-
-    CGI/PHP website on EOS
 
     Modify Chuck Close algorithm to read from memory (Blob)
 
