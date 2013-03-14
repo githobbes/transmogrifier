@@ -21,12 +21,16 @@ class Pixel {
 	// From there, the subsequent value increments the angle clockwise by 36 degrees.
 	int triType[3];
 
+	// Keeps track of which Chuck Close layer this pixel lies on
+	int layer;
+
 	// The X's and Y's correspond to the encompassing triangle's vertices.
 	// If Pixel is red, the P's correspond to the point on the long edge, and
 	// the Q's correspond to the point on one of the shorter edges.
 	// Otherwise, the P's correspond to the only other point and the Q's are null.
 	double X1, X2, X3, Y1, Y2, Y3, P1, P2, Q1, Q2;
 
+	bool isColored;
 public:
 
 	int
@@ -46,7 +50,49 @@ public:
 	}
 
 	void
+	color() {
+		isColored = true;
+	}
+
+	bool
+	coloredYet() {
+		return isColored;
+	}
+
+	double
+	getX1() {
+		return X1;
+	}
+
+	double
+	getY1() {
+		return Y1;
+	}
+
+	double
+	getX2() {
+		return X2;
+	}
+
+	double
+	getY2() {
+		return Y2;
+	}
+
+	double
+	getX3() {
+		return X3;
+	}
+
+	double
+	getY3() {
+		return Y3;
+	}
+
+	void
 	setTypes(int* type) {
+		isColored = false;
+		layer = 0;
 		triType[0] = type[0];
 		triType[1] = type[1];
 		triType[2] = type[2];
@@ -70,6 +116,11 @@ public:
 	int
 	getSpin() {
 		return triType[2];
+	}
+
+	int
+	getLayer() {
+		return layer;
 	}
 
 	void
@@ -478,6 +529,129 @@ public:
 			} else {
 				triType[2] = (triType[2] + 7) % 10;
 				setVertices(X3, Y3, P1, P2, X2, Y2);
+			}
+		}
+	}
+
+	void
+	ellipticize() {
+		int dist;
+		if (triType[0] == 0) {
+			if (triType[2] == 1) {
+				if (triType[1] == 0) {
+					P1 = Q1 = X1 + (1.0/3)*(X2 - X1);
+
+					P2 = Y3 + (1.0/4)*(Y1 - Y3);
+					Q2 = Y3 + (3.0/4)*(Y1 - Y3);
+
+					dist = (17.0/32)*(Y1 - Y3);
+				}
+				else if (triType[1] == 1) {
+					P1 = Q1 = X1 + (2.0/3)*(X2 - X1);
+
+					P2 = Y3 + (1.0/4)*(Y2 - Y3);
+					Q2 = Y3 + (3.0/4)*(Y2 - Y3);
+
+					dist = (17.0/32)*(Y2 - Y3);
+				}
+			}
+			else if (triType[2] == 6) {
+				if (triType[1] == 0) {
+					P1 = Q1 = X2 + (2.0/3)*(X1 - X2);
+
+					P2 = Y1 + (1.0/4)*(Y3 - Y1);
+					Q2 = Y1 + (3.0/4)*(Y3 - Y1);
+
+					dist = (17.0/32)*(Y3 - Y1);
+				}
+				else if (triType[1] == 1) {
+					P1 = Q1 = X2 + (1.0/3)*(X1 - X2);
+
+					P2 = Y2 + (1.0/4)*(Y3 - Y2);
+					Q2 = Y2 + (3.0/4)*(Y3 - Y2);
+
+					dist = (17.0/32)*(Y3 - Y2);
+				}
+			}
+			else {
+				if (triType[1] == 0) {
+					// Set midpoint of long edge
+					P1 = (1.0/2)*(X1 + X3);
+					P2 = (1.0/2)*(Y1 + Y3);
+
+					// Find center of ellipse
+					Q1 = P1 + (1.0/3)*(X2 - P1);
+					Q2 = P2 + (1.0/3)*(Y2 - P2);
+
+					// Set (P1, P2) onto line with Center - extended from X3
+					dist = P2 - Q2;
+					P2 = Y3 - dist;
+					dist = P1 - Q1;
+					P1 = X3 - dist;
+
+					// Find first foci - (Q1, Q2)
+					Q1 = (1.0/2)*(P1 + Q1);
+					Q2 = (1.0/2)*(P2 + Q2);
+
+					// Find second foci - (P1, P2)
+					P1 = P1 + 3*(Q1 - P1);
+					P2 = P2 + 3*(Q2 - P2);
+
+					dist = (17.0/32)*sqrt(pow(X1 - X3, 2) + pow(Y1 - Y3, 2));
+				}
+				else if (triType[1] == 1) {
+					// Set midpoint of long edge
+					P1 = (1.0/2)*(X2 + X3);
+					P2 = (1.0/2)*(Y2 + Y3);
+
+					// Find center of ellipse
+					Q1 = X1 + (2.0/3)*(P1 - X1);
+					Q2 = Y1 + (2.0/3)*(P2 - Y1);
+
+					// Set (P1, P2) onto line with Center - extended from X3
+					dist = Q1 - P1;
+					P1 = X3 + dist;
+					dist = Q2 - P2;
+					P2 = Y3 + dist;
+
+					// Find first foci - (Q1, Q2)
+					Q1 = (1.0/2)*(Q1 + P1);
+					Q2 = (1.0/2)*(Q2 + P2);
+
+					// Find second foci - (P1, P2)
+					P1 = P1 + 3*(Q1 - P1);
+					P2 = P2 + 3*(Q2 - P2);
+
+					dist = (17.0/32)*sqrt(pow(X2 - X3, 2) + pow(Y2 - Y3, 2));
+				}
+			}
+		}
+		else if (triType[0] == 1) {
+			P1 = (1.0/2)*(X2 + X3);
+			P2 = (1.0/2)*(Y2 + Y3);
+
+			Q1 = X1 + (10.0/12)*(P1 - X1);
+			Q2 = Y1 + (10.0/12)*(P2 - Y1);
+
+			P1 = (1.0/2)*(P1 + X1);
+			P2 = (1.0/2)*(P2 + Y1);
+
+			dist = (1.5)*sqrt(pow(P1 - Q1, 2) + pow(P2 - Q2, 2));
+		}
+
+		// Determine if pixel lies within ellipse
+		if (triType[0] == 0) {
+			if (sqrt(pow(X - P1,2) + pow(Y - P2,2)) + sqrt(pow(X - Q1,2) + pow(Y - Q2, 2)) <= (1.1)*dist) {
+				layer = 1;
+				if (sqrt(pow(X - P1,2) + pow(Y - P2,2)) + sqrt(pow(X - Q1,2) + pow(Y - Q2, 2)) <= dist)
+					layer = 2;
+			}
+		}
+		else if (triType[0] == 1) {
+			if (sqrt(pow(X - P1,2) + pow(Y - P2,2)) + sqrt(pow(X - Q1,2) + pow(Y - Q2, 2)) <= (1.3)*dist) {
+				layer = 1;
+				if (sqrt(pow(X - P1,2) + pow(Y - P2,2)) + sqrt(pow(X - Q1,2) + pow(Y - Q2, 2)) <= dist)
+					layer = 2;
 			}
 		}
 	}
