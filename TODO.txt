@@ -10,6 +10,8 @@ Yet To Do:
         Proposed Boost.Log is too heavy for our purposes
         Just using std::clog
 
+    Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
+
     Check for other file errors
         Output file exists
         Can't write to output file
