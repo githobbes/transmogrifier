@@ -20,9 +20,9 @@ Yet To Do:
         Can't read from the input file
         Catch GraphicsMagick errors
 
-    Go through functions and optimize code/check for memory leaks
+    Go through functions and optimize code/check for memory leaks (use Valgrind)
 
-    Document compilation and installation procedure
+    Document compilation and installation procedure (with Sphinx/Doxygen)
 
     Doxygen documentation.
 
