@@ -16,6 +16,10 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
 		log() << inputImgName << ": image file cannot be opened" << std::endl;
 		std::exit(1);
 	}
+	catch( Magick::ErrorCorruptImage &error ) {
+	  log() << inputImgName << ": image file corrupt" << std::endl;
+	  std::exit(1);
+	}
 
 	// Setting quality to 0 ensures that the formatting is not compressed to binary.
 	// Instead, the file is converted to an ASCII format.
