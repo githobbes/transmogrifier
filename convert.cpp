@@ -1,4 +1,5 @@
 #include "convert.hpp"
+#include "logging.hpp"
 #include <Magick++.h>
 #include <iostream>
 #include <sstream>
@@ -8,7 +9,13 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
 {
 	Magick::Image image;
 
-	image.read(inputImgName);
+	try {
+		image.read(inputImgName);
+	}
+	catch( Magick::ErrorFileOpen  &error ) {
+		log() << inputImgName << ": image file cannot be opened" << std::endl;
+		std::exit(1);
+	}
 
 	// Setting quality to 0 ensures that the formatting is not compressed to binary.
 	// Instead, the file is converted to an ASCII format.
@@ -30,12 +37,12 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
 }
 
 void
-writeImage(const std::stringstream& ppmStream, const std::string& pngImgName) 
+writeImage(const std::stringstream& ppmStream, const std::string& pngImgName)
 {
-  std::string str = ppmStream.str();
-  Magick::Blob blob( (void*) str.c_str(), str.length());
+	std::string str = ppmStream.str();
+	Magick::Blob blob( (void*) str.c_str(), str.length());
 
-  Magick::Image image( blob );
+	Magick::Image image( blob );
 
-  image.write(pngImgName);
+	image.write(pngImgName);
 }

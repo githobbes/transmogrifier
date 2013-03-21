@@ -1,5 +1,6 @@
 #include "convert.hpp"
 #include "algorithms.hpp"
+#include "logging.hpp"
 #include <Magick++.h>
 #include <iostream>
 #include <fstream>
@@ -13,12 +14,14 @@ main (int argc, char *argv[])
 {
 	Magick::InitializeMagick(*argv);
 
+	programName = argv[0];
+
 	po::options_description genericOptions("Allowed options");
 	genericOptions.add_options()
-	  ("version,V", "print program version")
-	  ("input-image", po::value<std::string>()->required(), "image to be transmogrified")
-	  ("output-image", po::value<std::string>()->required(), "location of transmogrified image")
-	  ("iterations,i", po::value<unsigned>()->default_value(8), "number of iterations")
+	("version,V", "print program version")
+	("input-image", po::value<std::string>()->required(), "image to be transmogrified")
+	("output-image", po::value<std::string>()->required(), "location of transmogrified image")
+	("iterations,i", po::value<unsigned>()->default_value(8), "number of iterations")
 	;
 
 	po::positional_options_description positionalOptions;
