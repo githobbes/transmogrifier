@@ -8,6 +8,8 @@ Yet To Do:
         Proposed Boost.Log is too heavy for our purposes
         Just using std::clog
 
+    Add transmogrifier namespace
+
     Mike - Windows 7 VM with VirtualBox
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
