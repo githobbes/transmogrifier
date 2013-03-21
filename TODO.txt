@@ -1,7 +1,5 @@
 Yet To Do:
 
-    Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
-
     Check that the input file exists
 
     Add -h and --help options that print usage.
@@ -9,6 +7,10 @@ Yet To Do:
     Add logging - verbosity flag
         Proposed Boost.Log is too heavy for our purposes
         Just using std::clog
+
+    Mike - Windows 7 VM with VirtualBox
+    Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
+    Windows compatability
 
     Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
 
@@ -18,8 +20,6 @@ Yet To Do:
         Can't read from the input file
         Catch GraphicsMagick errors
 
-    CGI/PHP website on EOS
-
     Go through functions and optimize code/check for memory leaks
 
     Document compilation and installation procedure
@@ -28,10 +28,14 @@ Yet To Do:
 
     Doxygen documentation.
 
-    Windows compatability
-
     Modify Chuck Close algorithm to read from memory (Blob)
+
+    Chuck Close support images should be compiled in executable
 
     libtransmogrify
 	Create static and shared library
 	Python binding
+
+Deferred:
+
+    CGI/PHP website on EOS
