@@ -24,8 +24,6 @@ Yet To Do:
 
     Document compilation and installation procedure
 
-    ???Remove Makefile???
-
     Doxygen documentation.
 
     Modify Chuck Close algorithm to read from memory (Blob)
