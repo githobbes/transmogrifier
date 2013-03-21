@@ -1,12 +1,8 @@
 Yet To Do:
 
-    Check that the input file exists
-
     Add -h and --help options that print usage.
 
-    Add logging - verbosity flag
-        Proposed Boost.Log is too heavy for our purposes
-        Just using std::clog
+    Add logging to image processing
 
     Add transmogrifier namespace
 
