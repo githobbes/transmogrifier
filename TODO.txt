@@ -1,13 +1,11 @@
 Yet To Do:
 
-    Add logging to image processing
-
     Add transmogrifier namespace
 
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
-
-    Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
+ 
+   Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
 
     Check for other file errors
         Output file exists

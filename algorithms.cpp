@@ -1,4 +1,5 @@
 #include "algorithms.hpp"
+#include "logging.hpp"
 #include "pixel.cpp"
 #include <cstdlib>
 
@@ -18,7 +19,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 		pic[i] = new int[height];
 	}
 
-	cout << "Reading pigments into 'pic'" << std::endl;
+	log() << "Reading pigments into matrix" << std::endl;
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width * 3; i++) {
 			inputPPMStream >> pic[i][j];
@@ -45,7 +46,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	int topRight[3] = {1, 1, 0};
 	int black[3] = {-1, -1, -1};
 
-	cout << "Initializing pixelMap" << std::endl;
+	log() << "Initializing base Penrose tiling" << std::endl;
 	for (int j = 0; j < matH; j++) {
 		for (int i = 0; i < matW; i++) {
 			pixelMap[i][j].setX(i);
@@ -91,7 +92,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 		}
 	}
 
-	cout << "Iterating through the Penrose tiling algorithm" << std::endl;
+	log() << "Iterating through the Penrose tiling algorithm" << std::endl;
 	// Iterating through the Penrose tiling algorithm...
 	for(int k = 0; k < iterations; k++) {
 		for (int j = 0; j < matH; j++) {
@@ -131,7 +132,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	int top, bot, left, right;
 	int red, gre, blu, rin, gin, bin, rout, gout, bout, red0, red1, red2, gre0, gre1, gre2, blu0, blu1, blu2;
 	double layer0, layer1, layer2, weight1, weight2;
-	cout << "Coloring" << std::endl;
+	log() << "Coloring" << std::endl;
 	for (int j = shortLeg; j < shortLeg + height; j++) {
 		for (int i = 0; i < matW; i++) {
 			if (!pixelMap[i][j].coloredYet() && (pixelMap[i][j].getType() == 0 || pixelMap[i][j].getType() == 1)) {
@@ -247,7 +248,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 		}
 	}
 
-	cout << "Writing new image" << std::endl;
+	log() << "Writing new image" << std::endl;
 	outputPPMStream << "P3" << std::endl;
 	outputPPMStream << width << " " << height << std::endl;
 	outputPPMStream << scale << std::endl;
@@ -272,9 +273,9 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 		outputPPMStream << std::endl;
 	}
 
-	cout << "Corrupted data: " << float(count0) / count1 << "%" << std::endl;
+	log() << "Corrupt data: " << float(count0) / count1 << "%" << std::endl;
 
-	cout << "Deleteing dynamically-allocated arrays" << std::endl;
+	log() << "Clearing memory" << std::endl;
 	delete pic;
 	delete pixelMap;
 }
