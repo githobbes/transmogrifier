@@ -17,8 +17,8 @@ toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostrea
 		std::exit(1);
 	}
 	catch( Magick::ErrorCorruptImage &error ) {
-	  log() << inputImgName << ": image file corrupt" << std::endl;
-	  std::exit(1);
+		log() << inputImgName << ": image file corrupt" << std::endl;
+		std::exit(1);
 	}
 
 	// Setting quality to 0 ensures that the formatting is not compressed to binary.

@@ -15,28 +15,28 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	int **pic;
 	pic = new int*[width*3];
 	for (int i = 0; i < width*3; ++i) {
-	  pic[i] = new int[height];
+		pic[i] = new int[height];
 	}
-	
+
 	cout << "Reading pigments into 'pic'" << std::endl;
 	for (int j = 0; j < height; j++) {
-	  for (int i = 0; i < width * 3; i++) {
-	    inputPPMStream >> pic[i][j];
-	  }
+		for (int i = 0; i < width * 3; i++) {
+			inputPPMStream >> pic[i][j];
+		}
 	}
-	
+
 	// Initialize constants for use with base-region (six triangles)
 	const float shortLeg = height * (1.0 / 4)*(sqrt(5) - 1);
 	const float longLeg = height * sqrt((0.625) + sqrt(5)/8);
 	const int matH = height + 2*ceil(shortLeg);
 	const int matW = min(width, (int)(2*ceil(longLeg)));
-	
+
 	Pixel **pixelMap;
 	pixelMap = new Pixel*[matW];
 	for (int i = 0; i < matW; ++i) {
-	  pixelMap[i] = new Pixel[matH];
+		pixelMap[i] = new Pixel[matH];
 	}
-	
+
 	int botLeft[3] = {0, 1, 0};
 	int midLeft[3] = {0, 0, 0};
 	int topLeft[3] = {1, 0, 0};
@@ -44,14 +44,14 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	int midRight[3] = {0, 1, 2};
 	int topRight[3] = {1, 1, 0};
 	int black[3] = {-1, -1, -1};
-	
+
 	cout << "Initializing pixelMap" << std::endl;
 	for (int j = 0; j < matH; j++) {
-	  for (int i = 0; i < matW; i++) {
-	    pixelMap[i][j].setX(i);
-	    pixelMap[i][j].setY(j);
-	    if (i < longLeg) {
-	      // Eliminating "out of bounds" region above and below
+		for (int i = 0; i < matW; i++) {
+			pixelMap[i][j].setX(i);
+			pixelMap[i][j].setY(j);
+			if (i < longLeg) {
+				// Eliminating "out of bounds" region above and below
 				if ( j > ((shortLeg)/longLeg) * (0 - i) + shortLeg && j < (shortLeg/longLeg) * i + shortLeg + height ) {
 					if ( j <= (shortLeg/longLeg) * (i) + shortLeg) {
 						pixelMap[i][j].setTypes(topLeft);
@@ -120,7 +120,7 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 							pixelMap[i][j].changelt();
 						}
 						else if ( pixelMap[i][j].getRot() == 1 ) {
-						  pixelMap[i][j].changelT();
+							pixelMap[i][j].changelT();
 						}
 					}
 				}
@@ -153,23 +153,23 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 				for (int y = top; y <= bot && y < shortLeg + height; y++) {
 					for (int x = left; x <= right && x < matW; x++) {
 						if (pixelMap[i][j].getType() == pixelMap[x][y].getType()
-						    && pixelMap[i][j].getRot() == pixelMap[x][y].getRot()
-						    && pixelMap[i][j].getSpin() == pixelMap[x][y].getSpin()
-						    && !pixelMap[x][y].coloredYet()) {
+						        && pixelMap[i][j].getRot() == pixelMap[x][y].getRot()
+						        && pixelMap[i][j].getSpin() == pixelMap[x][y].getSpin()
+						        && !pixelMap[x][y].coloredYet()) {
 							// Determine location within ellipses
 							pixelMap[x][y].ellipticize();
 							// Set up for color determination
 							if (pixelMap[x][y].getLayer() == 0) {
-							  red0 += pic[3*x][y - (int) shortLeg];
-							  gre0 += pic[3*x + 1][y - (int) shortLeg];
-							  blu0 += pic[3*x + 2][y - (int) shortLeg];
-							  layer0++;
+								red0 += pic[3*x][y - (int) shortLeg];
+								gre0 += pic[3*x + 1][y - (int) shortLeg];
+								blu0 += pic[3*x + 2][y - (int) shortLeg];
+								layer0++;
 							}
-							else /*if (pixelMap[x][y].getLayer() == 1)*/ {
-							  red1 += pic[3*x][y - (int) shortLeg];
-							  gre1 += pic[3*x + 1][y - (int) shortLeg];
-							  blu1 += pic[3*x + 2][y - (int) shortLeg];
-							  layer1++;
+							else { /*if (pixelMap[x][y].getLayer() == 1)*/
+								red1 += pic[3*x][y - (int) shortLeg];
+								gre1 += pic[3*x + 1][y - (int) shortLeg];
+								blu1 += pic[3*x + 2][y - (int) shortLeg];
+								layer1++;
 							} /*
 							else {
 							  red2 += pic[3*x][y - (int) shortLeg];
@@ -216,31 +216,31 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 					*/
 					// Reset pixels in "pic" to clustered color
 					for (int y = top; y <= bot && y < shortLeg + height; y++) {
-					  for (int x = left; x <= right && x < matW; x++) {
-					    if (pixelMap[i][j].getType() == pixelMap[x][y].getType()
-						&& pixelMap[i][j].getRot() == pixelMap[x][y].getRot()
-						&& pixelMap[i][j].getSpin() == pixelMap[x][y].getSpin()
-						&& !pixelMap[x][y].coloredYet()) {
-					      if (pixelMap[x][y].getLayer() == 0) {						
-						pic[3*x][y - (int) shortLeg] = red0;
-						pic[3*x + 1][y - (int) shortLeg] = gre0;
-						pic[3*x + 2][y - (int) shortLeg] = blu0;
-						pixelMap[x][y].color();
-					      }
-					      else /*if (pixelMap[x][y].getLayer() == 1)*/ {
-						pic[3*x][y - (int) shortLeg] = red1;
-						pic[3*x + 1][y - (int) shortLeg] = gre1;
-						pic[3*x + 2][y - (int) shortLeg] = blu1;
-						pixelMap[x][y].color();
-					      } /*
+						for (int x = left; x <= right && x < matW; x++) {
+							if (pixelMap[i][j].getType() == pixelMap[x][y].getType()
+							        && pixelMap[i][j].getRot() == pixelMap[x][y].getRot()
+							        && pixelMap[i][j].getSpin() == pixelMap[x][y].getSpin()
+							        && !pixelMap[x][y].coloredYet()) {
+								if (pixelMap[x][y].getLayer() == 0) {
+									pic[3*x][y - (int) shortLeg] = red0;
+									pic[3*x + 1][y - (int) shortLeg] = gre0;
+									pic[3*x + 2][y - (int) shortLeg] = blu0;
+									pixelMap[x][y].color();
+								}
+								else { /*if (pixelMap[x][y].getLayer() == 1)*/
+									pic[3*x][y - (int) shortLeg] = red1;
+									pic[3*x + 1][y - (int) shortLeg] = gre1;
+									pic[3*x + 2][y - (int) shortLeg] = blu1;
+									pixelMap[x][y].color();
+								} /*
 					      else if (pixelMap[x][y].getLayer() == 2) {
 						pic[3*x][y - (int) shortLeg] = red2;
 						pic[3*x + 1][y - (int) shortLeg] = gre2;
 						pic[3*x + 2][y - (int) shortLeg] = blu2;
 						pixelMap[x][y].color();
 						} */
-					    }
-					  }
+							}
+						}
 					}
 				}
 			}
@@ -256,18 +256,18 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	count0 = count1 = 0;
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width*3; i++) {
-		  if (pic[i][j] < 0) {
-		    cout << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
-		    pic[i][j] = 0;
-		    count0++;
-		  }
-		  else if (pic[i][j] > 255) {
-		    cout << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
-		    pic[i][j] = 255;
-		    count0++;
-		  }
-		  outputPPMStream << pic[i][j] << " ";
-		  count1++;
+			if (pic[i][j] < 0) {
+				cout << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
+				pic[i][j] = 0;
+				count0++;
+			}
+			else if (pic[i][j] > 255) {
+				cout << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
+				pic[i][j] = 255;
+				count0++;
+			}
+			outputPPMStream << pic[i][j] << " ";
+			count1++;
 		}
 		outputPPMStream << std::endl;
 	}

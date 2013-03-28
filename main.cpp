@@ -9,6 +9,13 @@
 
 namespace po = boost::program_options;
 
+std::string
+generateUsage(const char *progName, const po::options_description &options) {
+	std::ostringstream ss;
+	ss << "Usage: " << progName << " [options] INPUT_IMAGE OUTPUT_IMAGE\n" << options << std::endl;
+	return ss.str();
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -19,6 +26,7 @@ main (int argc, char *argv[])
 	po::options_description genericOptions("Allowed options");
 	genericOptions.add_options()
 	("version,V", "print program version")
+	("help,h", "print usage")
 	("input-image", po::value<std::string>()->required(), "image to be transmogrified")
 	("output-image", po::value<std::string>()->required(), "location of transmogrified image")
 	("iterations,i", po::value<unsigned>()->default_value(8), "number of iterations")
@@ -34,6 +42,11 @@ main (int argc, char *argv[])
 	          .positional(positionalOptions)
 	          .run(), vm);
 
+	if (vm.count("help")) {
+		std::cout << generateUsage(argv[0], genericOptions);
+		return 0;
+	}
+
 	if (vm.count("version")) {
 		std::cout << "Transmogrify 0.1" << std::endl;
 		return 0;
@@ -44,8 +57,7 @@ main (int argc, char *argv[])
 	}
 
 	catch(po::error& e) {
-		std::cerr << e.what() << "\n\n" << "Usage: " << argv[0] << " [options] INPUT_IMAGE OUTPUT_IMAGE\n" << genericOptions << std::endl;
-
+		std::cerr << e.what() << "\n\n" << generateUsage(argv[0], genericOptions);
 		return 1;
 	}
 
@@ -68,3 +80,4 @@ main (int argc, char *argv[])
 
 	return 0;
 }
+
