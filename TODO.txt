@@ -1,12 +1,9 @@
 Yet To Do:
 
-    Add -h and --help options that print usage.
-
     Add logging to image processing
 
     Add transmogrifier namespace
 
-    Mike - Windows 7 VM with VirtualBox
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
 
