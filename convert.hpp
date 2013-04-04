@@ -7,7 +7,10 @@
 
 namespace transmogrifier {
 void
-toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream);
+streamToPixelMap(const std::istream& inputStream, std::ostream& ppmStream, std::ostream& pgmStream);
+
+void
+namedFileToPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream);
 
 void
 writeImage(const std::stringstream& ppmStream, const std::string& pngImgName);

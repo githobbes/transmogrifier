@@ -7,7 +7,36 @@
 using transmogrifier::log;
 
 void
-transmogrifier::toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream)
+transmogrifier::streamToPixelMap(const std::istream& inputStream, std::ostream& ppmStream, std::ostream& pgmStream)
+{
+	std::stringstream buffer;
+	buffer << inputStream.rdbuf();
+	std::string str = buffer.str();
+	Magick::Blob inputBlob( (void*) str.c_str(), str.length() );
+
+	Magick::Image image ( inputBlob );
+
+	// Setting quality to 0 ensures that the formatting is not compressed to binary.
+	// Instead, the file is converted to an ASCII format.
+	// See PNM section: http://www.graphicsmagick.org/formats.html
+	// Also, see: http://www.graphicsmagick.org/formats.html#quality
+	image.quality(0);
+
+	Magick::Blob outputBlob;
+
+	// Writing PPM stream
+	image.magick( "PPM" );
+	image.write( &outputBlob );
+	ppmStream << (char*) outputBlob.data();
+
+	// Writing PGM stream
+	image.magick( "PGM" );
+	image.write( &outputBlob );
+	pgmStream << (char*) outputBlob.data();
+}
+
+void
+transmogrifier::namedFileToPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream)
 {
 	Magick::Image image;
 

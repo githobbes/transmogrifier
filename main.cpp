@@ -67,7 +67,10 @@ main (int argc, char *argv[])
 	// Convert image to PPM/PGM
 	std::stringstream ppmStream;
 	std::stringstream pgmStream;
-	transmogrifier::toPixelMap(inputImgName, ppmStream, pgmStream);
+	if (inputImgName == "-")
+		transmogrifier::streamToPixelMap(std::cin, ppmStream, pgmStream);
+	else
+		transmogrifier::namedFileToPixelMap(inputImgName, ppmStream, pgmStream);
 
 	// Create output file
 	std::stringstream outputImg;
