@@ -1,0 +1,6 @@
+Penrose transformation API
+
+        inputFileName, outputFileName, iterations
+        inputFileName, outputStream, outputFormat, iterations
+        inputStream, outputFileName, iterations
+        inputStream, outputStream, outputFormat, iterations

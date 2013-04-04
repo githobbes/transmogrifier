@@ -1,10 +1,15 @@
 Yet To Do:
 
+   Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
+       stdin is done
+       stdout will require explicitly stating the format on the command-line
+
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
+        Look at GraphicsMagick Magick++ demos
+        Write a hello world with Visual Studio and Visual C++
+        Write a hello world program with SCons
  
-   Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
-
     Check for other file errors
         Output file exists
         Can't write to output file
@@ -24,6 +29,10 @@ Yet To Do:
     libtransmogrify
 	Create static and shared library
 	Python binding
+
+        Helpful links:
+            http://wiki.cython.org/FAQ#HowdoIaccessnativePythonfileobjects.3F
+            http://docs.python.org/2/c-api/file.html
 
 Deferred:
 
