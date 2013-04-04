@@ -4,8 +4,10 @@
 #include <cmath>
 #include <cstdlib>
 
+using transmogrifier::log;
+
 void
-penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsigned iterations) {
+transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsigned iterations) {
 	char pre[2];
 	int width, height, scale;
 

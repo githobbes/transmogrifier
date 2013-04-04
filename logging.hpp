@@ -4,9 +4,13 @@
 #include <ostream>
 #include <string>
 
-extern std::string programName;
+namespace transmogrifier {
 
-std::ostream&
-log();
+    extern std::string programName;
+
+    std::ostream&
+    log();
+
+}
 
 #endif /* LOGGING_HPP */

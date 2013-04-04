@@ -21,7 +21,7 @@ main (int argc, char *argv[])
 {
 	Magick::InitializeMagick(*argv);
 
-	programName = argv[0];
+	transmogrifier::programName = argv[0];
 
 	po::options_description genericOptions("Allowed options");
 	genericOptions.add_options()
@@ -67,16 +67,16 @@ main (int argc, char *argv[])
 	// Convert image to PPM/PGM
 	std::stringstream ppmStream;
 	std::stringstream pgmStream;
-	toPixelMap(inputImgName, ppmStream, pgmStream);
+	transmogrifier::toPixelMap(inputImgName, ppmStream, pgmStream);
 
 	// Create output file
 	std::stringstream outputImg;
 
 	// Run algorithm on PPM input to produce PPM
-	penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
+	transmogrifier::penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
 
 	// Convert PPM to PNG
-	writeImage(outputImg, outputImgName);
+	transmogrifier::writeImage(outputImg, outputImgName);
 
 	return 0;
 }
