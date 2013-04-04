@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+using namespace transmogrifier;
+
 // Class definition for Pixels
 
 int

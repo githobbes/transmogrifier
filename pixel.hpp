@@ -1,6 +1,8 @@
 #ifndef PIXEL_HPP
 #define PIXEL_HPP
 
+namespace transmogrifier {
+
 class Pixel {
 	// The values X and Y correspond to the pixel's location.
 	// The value for color
@@ -93,4 +95,5 @@ public:
 	void
 	ellipticize();
 };
+}
 #endif /* PIXEL_HPP */

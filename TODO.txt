@@ -1,7 +1,5 @@
 Yet To Do:
 
-    Add transmogrifier namespace
-
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
  

@@ -35,10 +35,10 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 	const int matH = height + 2*std::ceil(shortLeg);
 	const int matW = std::min(width, (int)(2*std::ceil(longLeg)));
 
-	Pixel **pixelMap;
-	pixelMap = new Pixel*[matW];
+	transmogrifier::Pixel **pixelMap;
+	pixelMap = new transmogrifier::Pixel*[matW];
 	for (int i = 0; i < matW; ++i) {
-		pixelMap[i] = new Pixel[matH];
+		pixelMap[i] = new transmogrifier::Pixel[matH];
 	}
 
 	int botLeft[3] = {0, 1, 0};
