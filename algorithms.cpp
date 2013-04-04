@@ -1,6 +1,7 @@
 #include "algorithms.hpp"
 #include "logging.hpp"
-#include "pixel.cpp"
+#include "pixel.hpp"
+#include <cmath>
 #include <cstdlib>
 
 void
@@ -27,10 +28,10 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	}
 
 	// Initialize constants for use with base-region (six triangles)
-	const float shortLeg = height * (1.0 / 4)*(sqrt(5) - 1);
-	const float longLeg = height * sqrt((0.625) + sqrt(5)/8);
-	const int matH = height + 2*ceil(shortLeg);
-	const int matW = min(width, (int)(2*ceil(longLeg)));
+	const float shortLeg = height * (1.0 / 4)*(std::sqrt(5) - 1);
+	const float longLeg = height * std::sqrt((0.625) + std::sqrt(5)/8);
+	const int matH = height + 2*std::ceil(shortLeg);
+	const int matW = std::min(width, (int)(2*std::ceil(longLeg)));
 
 	Pixel **pixelMap;
 	pixelMap = new Pixel*[matW];
@@ -138,18 +139,18 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 			if (!pixelMap[i][j].coloredYet() && (pixelMap[i][j].getType() == 0 || pixelMap[i][j].getType() == 1)) {
 				red0 = gre0 = blu0 = red1 = gre1 = blu1 = red2 = gre2 = blu2 = 0;
 				layer0 = layer1 = layer2 = 0;
-				top = min((int)pixelMap[i][j].getY1(), (int)pixelMap[i][j].getY2());
-				top = min(top, (int)pixelMap[i][j].getY3());
-				top = max(0, (int)shortLeg);
-				bot = max((int)pixelMap[i][j].getY1(), (int)pixelMap[i][j].getY2());
-				bot = max(bot, (int)pixelMap[i][j].getY3());
-				bot = min(bot, (int)(shortLeg + height));
-				left = min((int)pixelMap[i][j].getX1(), (int)pixelMap[i][j].getX2());
-				left = min(left, (int)pixelMap[i][j].getX3());
-				left = max(0, left);
-				right = max((int)pixelMap[i][j].getX1(), (int)pixelMap[i][j].getX2());
-				right = max(right, (int)pixelMap[i][j].getX3());
-				right = min(right, (int)(width));
+				top = std::min((int)pixelMap[i][j].getY1(), (int)pixelMap[i][j].getY2());
+				top = std::min(top, (int)pixelMap[i][j].getY3());
+				top = std::max(0, (int)shortLeg);
+				bot = std::max((int)pixelMap[i][j].getY1(), (int)pixelMap[i][j].getY2());
+				bot = std::max(bot, (int)pixelMap[i][j].getY3());
+				bot = std::min(bot, (int)(shortLeg + height));
+				left = std::min((int)pixelMap[i][j].getX1(), (int)pixelMap[i][j].getX2());
+				left = std::min(left, (int)pixelMap[i][j].getX3());
+				left = std::max(0, left);
+				right = std::max((int)pixelMap[i][j].getX1(), (int)pixelMap[i][j].getX2());
+				right = std::max(right, (int)pixelMap[i][j].getX3());
+				right = std::min(right, (int)(width));
 
 				for (int y = top; y <= bot && y < shortLeg + height; y++) {
 					for (int x = left; x <= right && x < matW; x++) {
@@ -195,25 +196,25 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 					weight1 = layer0 / (layer0 + layer1);
 					weight2 = layer1 / (layer0 + layer1);
 
-					red0 = rand() % (1 + abs(max(0, max(red - 40, (int)((red - 255 * weight2) / weight1)))
-					                         - min(255, min(red + 40, (int)(red / weight2)))));
-					red0 += min(max(0, max(red - 40, (int)((red - 255 * weight2) / weight1))),
-					            min(255, min(red + 40, (int)(red / weight2))));
-					gre0 = rand() % (1 + abs(max(0, max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
-					                         - min(255, min(gre + 40, (int)(gre / weight2)))));
-					gre0 += min(max(0, max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
-					            min(255, min(gre + 40, (int)(gre / weight2))));
-					blu0 = rand() % (1 + abs(max(0, max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
-					                         - min(255, min(blu + 40, (int)(blu / weight2)))));
-					blu0 += min(max(0, max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
-					            min(255, min(blu + 40, (int)(blu / weight2))));
-					red1 = floor((red-red0*weight1) / weight2);
-					gre1 = floor((gre-gre0*weight1) / weight2);
-					blu1 = floor((blu-blu0*weight1) / weight2);
+					red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
+								      - std::min(255, std::min(red + 40, (int)(red / weight2)))));
+					red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
+							 std::min(255, std::min(red + 40, (int)(red / weight2))));
+					gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
+								      - std::min(255, std::min(gre + 40, (int)(gre / weight2)))));
+					gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
+							 std::min(255, std::min(gre + 40, (int)(gre / weight2))));
+					blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
+									   - std::min(255, std::min(blu + 40, (int)(blu / weight2)))));
+					blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
+							 std::min(255, std::min(blu + 40, (int)(blu / weight2))));
+					red1 = std::floor((red-red0*weight1) / weight2);
+					gre1 = std::floor((gre-gre0*weight1) / weight2);
+					blu1 = std::floor((blu-blu0*weight1) / weight2);
 					/*
-					red2 = rand() % (abs(rin - min(255, rin + 40))) + rin + 1;
-					gre2 = rand() % (abs(gin - min(255, gin + 40))) + gin + 1;
-					blu2 = rand() % (abs(bin - min(255, bin + 40))) + bin + 1;
+					red2 = std::rand() % (std::abs(rin - std::min(255, rin + 40))) + rin + 1;
+					gre2 = std::rand() % (std::abs(gin - std::min(255, gin + 40))) + gin + 1;
+					blu2 = std::rand() % (std::abs(bin - std::min(255, bin + 40))) + bin + 1;
 					*/
 					// Reset pixels in "pic" to clustered color
 					for (int y = top; y <= bot && y < shortLeg + height; y++) {
@@ -258,12 +259,12 @@ penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsign
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width*3; i++) {
 			if (pic[i][j] < 0) {
-				cout << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
+			    log() << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
 				pic[i][j] = 0;
 				count0++;
 			}
 			else if (pic[i][j] > 255) {
-				cout << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
+			    log() << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
 				pic[i][j] = 255;
 				count0++;
 			}

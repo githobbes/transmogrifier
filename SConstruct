@@ -31,7 +31,7 @@ local_dir = os.path.join(os.environ['HOME'], '.local')
 local_include_dir = os.path.join(local_dir, 'include')
 local_lib_dir = os.path.join(local_dir, 'lib')
 
-main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms.cpp', 'logging.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')],
+main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')],
                    CXXFLAGS=get_gm_flags('cxxflags'),
                    _CPPINCFLAGS=get_gm_flags('cppflags') + ' -I' + local_include_dir,
                    _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
@@ -40,7 +40,7 @@ main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms
 chuck = env.Program(target='chuck', source=['mainChuck.cpp'],
                     CPPPATH='#/vendor/include/eigen3')
 
-penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
+# penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
 
 env.Default(main)
 
