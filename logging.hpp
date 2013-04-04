@@ -6,10 +6,10 @@
 
 namespace transmogrifier {
 
-    extern std::string programName;
+extern std::string programName;
 
-    std::ostream&
-    log();
+std::ostream&
+log();
 
 }
 

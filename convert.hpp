@@ -6,10 +6,10 @@
 #include <istream>
 
 namespace transmogrifier {
-    void
-    toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream);
+void
+toPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream);
 
-    void
-    writeImage(const std::stringstream& ppmStream, const std::string& pngImgName);
+void
+writeImage(const std::stringstream& ppmStream, const std::string& pngImgName);
 }
 #endif /* CONVERT_HPP */

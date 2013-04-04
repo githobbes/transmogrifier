@@ -36,8 +36,8 @@ public:
 	void
 	setY(int y);
 
-    void
-    color();
+	void
+	color();
 
 	bool
 	coloredYet();

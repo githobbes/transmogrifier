@@ -199,17 +199,17 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 					weight2 = layer1 / (layer0 + layer1);
 
 					red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
-								      - std::min(255, std::min(red + 40, (int)(red / weight2)))));
+					                                   - std::min(255, std::min(red + 40, (int)(red / weight2)))));
 					red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
-							 std::min(255, std::min(red + 40, (int)(red / weight2))));
+					                 std::min(255, std::min(red + 40, (int)(red / weight2))));
 					gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
-								      - std::min(255, std::min(gre + 40, (int)(gre / weight2)))));
+					                                   - std::min(255, std::min(gre + 40, (int)(gre / weight2)))));
 					gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
-							 std::min(255, std::min(gre + 40, (int)(gre / weight2))));
+					                 std::min(255, std::min(gre + 40, (int)(gre / weight2))));
 					blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
-									   - std::min(255, std::min(blu + 40, (int)(blu / weight2)))));
+					                                   - std::min(255, std::min(blu + 40, (int)(blu / weight2)))));
 					blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
-							 std::min(255, std::min(blu + 40, (int)(blu / weight2))));
+					                 std::min(255, std::min(blu + 40, (int)(blu / weight2))));
 					red1 = std::floor((red-red0*weight1) / weight2);
 					gre1 = std::floor((gre-gre0*weight1) / weight2);
 					blu1 = std::floor((blu-blu0*weight1) / weight2);
@@ -261,12 +261,12 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width*3; i++) {
 			if (pic[i][j] < 0) {
-			    log() << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
+				log() << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
 				pic[i][j] = 0;
 				count0++;
 			}
 			else if (pic[i][j] > 255) {
-			    log() << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
+				log() << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
 				pic[i][j] = 255;
 				count0++;
 			}

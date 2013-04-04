@@ -4,7 +4,7 @@
 #include <ostream>
 #include <istream>
 
-namespace transmogrifier{
+namespace transmogrifier {
 
 void
 penroseChuck(std::istream& inputPPMStream, std::ostream& outputPPMStream, unsigned iterations);
