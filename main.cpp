@@ -65,6 +65,16 @@ main (int argc, char *argv[])
 	std::string inputImgName = vm["input-image"].as<std::string>();
 	std::string outputImgName = vm["output-image"].as<std::string>();
 
+	if (outputImgName == "-" && vm.count("output-format") == 0) {
+		transmogrifier::error() << "Must pass `--output-format' when output is sent to stdout (`--output-image' is \"-\")" << std::endl;
+		return 1;
+	}
+
+	if (outputImgName != "-" && vm.count("output-format") > 0) {
+		transmogrifier::error() << "Must pass `--output-format' ONLY when output is sent to stdout (`--output-image' is \"-\")" << std::endl;
+		return 1;
+	}
+
 	// Convert image to PPM
 	std::stringstream ppmStream;
 	if (inputImgName == "-")

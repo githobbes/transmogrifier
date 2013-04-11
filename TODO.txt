@@ -1,7 +1,5 @@
 Yet To Do:
 
-    Check for --output-format errors
-
     Handle Magick errors for output format
 
     Revise variable names

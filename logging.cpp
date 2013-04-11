@@ -8,3 +8,8 @@ std::ostream&
 transmogrifier::log() {
 	return std::clog << "[" << boost::posix_time::second_clock::local_time() << "] " << transmogrifier::programName << ": ";
 }
+
+std::ostream&
+transmogrifier::error() {
+	return std::cerr << transmogrifier::programName << ": ";
+}
