@@ -29,6 +29,7 @@ main (int argc, char *argv[])
 	("help,h", "print usage")
 	("input-image", po::value<std::string>()->required(), "image to be transmogrified")
 	("output-image", po::value<std::string>()->required(), "location of transmogrified image")
+	("output-format,f", po::value<std::string>(), "format for output image ONLY if writing to stdout")
 	("iterations,i", po::value<unsigned>()->default_value(8), "number of iterations")
 	;
 
@@ -64,13 +65,13 @@ main (int argc, char *argv[])
 	std::string inputImgName = vm["input-image"].as<std::string>();
 	std::string outputImgName = vm["output-image"].as<std::string>();
 
-	// Convert image to PPM/PGM
+	// Convert image to PPM
 	std::stringstream ppmStream;
-	std::stringstream pgmStream;
 	if (inputImgName == "-")
-		transmogrifier::streamToPixelMap(std::cin, ppmStream, pgmStream);
+		transmogrifier::streamToPixelMap(std::cin, ppmStream);
 	else
-		transmogrifier::namedFileToPixelMap(inputImgName, ppmStream, pgmStream);
+		transmogrifier::namedFileToPixelMap(inputImgName, ppmStream);
+
 
 	// Create output file
 	std::stringstream outputImg;
@@ -79,7 +80,10 @@ main (int argc, char *argv[])
 	transmogrifier::penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
 
 	// Convert PPM to PNG
-	transmogrifier::writeImage(outputImg, outputImgName);
+	if (outputImgName == "-") {
+		transmogrifier::pixelMapToStream(outputImg, std::cout, vm["output-format"].as<std::string>());
+	} else
+		transmogrifier::pixelMapToNamedFile(outputImg, outputImgName);
 
 	return 0;
 }

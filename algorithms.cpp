@@ -132,7 +132,7 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 		}
 	}
 
-	
+
 
 	int top, bot, left, right;
 	int red, gre, blu, rin, gin, bin, rout, gout, bout, red0, red1, red2, gre0, gre1, gre2, blu0, blu1, blu2;
@@ -166,24 +166,24 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 							pixelMap[x][y].ellipticize();
 							// Set up for color determination
 							if (x < width && y - (int) shortLeg < height) {
-							    if (pixelMap[x][y].getLayer() == 0) {
-								red0 += pic[3*x][y - (int) shortLeg];
-								gre0 += pic[3*x + 1][y - (int) shortLeg];
-								blu0 += pic[3*x + 2][y - (int) shortLeg];
-								layer0++;
-							    }
-							    else if (pixelMap[x][y].getLayer() == 1) {
-								red1 += pic[3*x][y - (int) shortLeg];
-								gre1 += pic[3*x + 1][y - (int) shortLeg];
-								blu1 += pic[3*x + 2][y - (int) shortLeg];
-								layer1++;
-							    }
-							    else {
-								red2 += pic[3*x][y - (int) shortLeg];
-								gre2 += pic[3*x + 1][y - (int) shortLeg];
-								blu2 += pic[3*x + 2][y - (int) shortLeg];
-								layer2++;
-							    }
+								if (pixelMap[x][y].getLayer() == 0) {
+									red0 += pic[3*x][y - (int) shortLeg];
+									gre0 += pic[3*x + 1][y - (int) shortLeg];
+									blu0 += pic[3*x + 2][y - (int) shortLeg];
+									layer0++;
+								}
+								else if (pixelMap[x][y].getLayer() == 1) {
+									red1 += pic[3*x][y - (int) shortLeg];
+									gre1 += pic[3*x + 1][y - (int) shortLeg];
+									blu1 += pic[3*x + 2][y - (int) shortLeg];
+									layer1++;
+								}
+								else {
+									red2 += pic[3*x][y - (int) shortLeg];
+									gre2 += pic[3*x + 1][y - (int) shortLeg];
+									blu2 += pic[3*x + 2][y - (int) shortLeg];
+									layer2++;
+								}
 							}
 						}
 					}
@@ -203,39 +203,39 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 					weight2 = layer1 / (layer0 + layer1);
 
 					if (weight2 != 0) {
-					    red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
-									       - std::min(255, std::min(red + 40, (int)(red / weight2)))));
-					    red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
-							     std::min(255, std::min(red + 40, (int)(red / weight2))));
-					    gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
-									       - std::min(255, std::min(gre + 40, (int)(gre / weight2)))));
-					    gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
-							     std::min(255, std::min(gre + 40, (int)(gre / weight2))));
-					    blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
-									       - std::min(255, std::min(blu + 40, (int)(blu / weight2)))));
-					    blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
-							     std::min(255, std::min(blu + 40, (int)(blu / weight2))));
-					    red1 = std::floor((red-red0*weight1) / weight2);
-					    gre1 = std::floor((gre-gre0*weight1) / weight2);
-					    blu1 = std::floor((blu-blu0*weight1) / weight2);
+						red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
+						                                   - std::min(255, std::min(red + 40, (int)(red / weight2)))));
+						red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
+						                 std::min(255, std::min(red + 40, (int)(red / weight2))));
+						gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
+						                                   - std::min(255, std::min(gre + 40, (int)(gre / weight2)))));
+						gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
+						                 std::min(255, std::min(gre + 40, (int)(gre / weight2))));
+						blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
+						                                   - std::min(255, std::min(blu + 40, (int)(blu / weight2)))));
+						blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
+						                 std::min(255, std::min(blu + 40, (int)(blu / weight2))));
+						red1 = std::floor((red-red0*weight1) / weight2);
+						gre1 = std::floor((gre-gre0*weight1) / weight2);
+						blu1 = std::floor((blu-blu0*weight1) / weight2);
 					}
 
 					if (weight2 == 0) {
-					    red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
-									       - std::min(255, red + 40)));
-					    red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
-							     std::min(255, red + 40));
-					    gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
-									       - std::min(255, gre + 40)));
-					    gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
-							     std::min(255, gre + 40));
-					    blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
-									       - std::min(255, blu + 40)));
-					    blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
-							     std::min(255, blu + 40));
-					    red1 = 0;
-					    gre1 = 0;
-					    blu1 = 0;
+						red0 = std::rand() % (1 + std::abs(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1)))
+						                                   - std::min(255, red + 40)));
+						red0 += std::min(std::max(0, std::max(red - 40, (int)((red - 255 * weight2) / weight1))),
+						                 std::min(255, red + 40));
+						gre0 = std::rand() % (1 + std::abs(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1)))
+						                                   - std::min(255, gre + 40)));
+						gre0 += std::min(std::max(0, std::max(gre - 40, (int)((gre - 255 * weight2) / weight1))),
+						                 std::min(255, gre + 40));
+						blu0 = std::rand() % (1 + std::abs(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1)))
+						                                   - std::min(255, blu + 40)));
+						blu0 += std::min(std::max(0, std::max(blu - 40, (int)((blu - 255 * weight2) / weight1))),
+						                 std::min(255, blu + 40));
+						red1 = 0;
+						gre1 = 0;
+						blu1 = 0;
 					}
 
 					red2 = std::rand() % (std::abs(rin - std::min(255, rin + 40))) + rin + 1;
@@ -249,26 +249,26 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 							        && pixelMap[i][j].getRot() == pixelMap[x][y].getRot()
 							        && pixelMap[i][j].getSpin() == pixelMap[x][y].getSpin()
 							        && !pixelMap[x][y].coloredYet()) {
-							    if (3*x < width * 3 && y - (int) shortLeg < height) {
-								if (pixelMap[x][y].getLayer() == 0) {
-									pic[3*x][y - (int) shortLeg] = red0;
-									pic[3*x + 1][y - (int) shortLeg] = gre0;
-									pic[3*x + 2][y - (int) shortLeg] = blu0;
-									pixelMap[x][y].color();
+								if (3*x < width * 3 && y - (int) shortLeg < height) {
+									if (pixelMap[x][y].getLayer() == 0) {
+										pic[3*x][y - (int) shortLeg] = red0;
+										pic[3*x + 1][y - (int) shortLeg] = gre0;
+										pic[3*x + 2][y - (int) shortLeg] = blu0;
+										pixelMap[x][y].color();
+									}
+									else if (pixelMap[x][y].getLayer() == 1) {
+										pic[3*x][y - (int) shortLeg] = red1;
+										pic[3*x + 1][y - (int) shortLeg] = gre1;
+										pic[3*x + 2][y - (int) shortLeg] = blu1;
+										pixelMap[x][y].color();
+									}
+									else if (pixelMap[x][y].getLayer() == 2) {
+										pic[3*x][y - (int) shortLeg] = red2;
+										pic[3*x + 1][y - (int) shortLeg] = gre2;
+										pic[3*x + 2][y - (int) shortLeg] = blu2;
+										pixelMap[x][y].color();
+									}
 								}
-								else if (pixelMap[x][y].getLayer() == 1) {
-									pic[3*x][y - (int) shortLeg] = red1;
-									pic[3*x + 1][y - (int) shortLeg] = gre1;
-									pic[3*x + 2][y - (int) shortLeg] = blu1;
-									pixelMap[x][y].color();
-								}
-								else if (pixelMap[x][y].getLayer() == 2) {
-								    pic[3*x][y - (int) shortLeg] = red2;
-								    pic[3*x + 1][y - (int) shortLeg] = gre2;
-								    pic[3*x + 2][y - (int) shortLeg] = blu2;
-								    pixelMap[x][y].color();
-								} 
-							}
 							}
 						}
 					}
@@ -287,12 +287,12 @@ transmogrifier::penroseChuck(std::istream& inputPPMStream, std::ostream& outputP
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width*3; i++) {
 			if (pic[i][j] < 0) {
-			    //	log() << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
+				//	log() << "I: " << i << " J: " << j << " - Val:" << pic[i][j] << std::endl;
 				pic[i][j] = 0;
 				count0++;
 			}
 			else if (pic[i][j] > 255) {
-			    //				log() << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
+				//				log() << "I: " << i << " J: " << j << " - Val: " << pic[i][j] << std::endl;
 				pic[i][j] = 255;
 				count0++;
 			}

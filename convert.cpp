@@ -7,7 +7,7 @@
 using transmogrifier::log;
 
 void
-transmogrifier::streamToPixelMap(const std::istream& inputStream, std::ostream& ppmStream, std::ostream& pgmStream)
+transmogrifier::streamToPixelMap(const std::istream& inputStream, std::ostream& ppmStream)
 {
 	std::stringstream buffer;
 	buffer << inputStream.rdbuf();
@@ -28,15 +28,10 @@ transmogrifier::streamToPixelMap(const std::istream& inputStream, std::ostream& 
 	image.magick( "PPM" );
 	image.write( &outputBlob );
 	ppmStream << (char*) outputBlob.data();
-
-	// Writing PGM stream
-	image.magick( "PGM" );
-	image.write( &outputBlob );
-	pgmStream << (char*) outputBlob.data();
 }
 
 void
-transmogrifier::namedFileToPixelMap(const std::string& inputImgName, std::ostream& ppmStream, std::ostream& pgmStream)
+transmogrifier::namedFileToPixelMap(const std::string& inputImgName, std::ostream& ppmStream)
 {
 	Magick::Image image;
 
@@ -64,15 +59,23 @@ transmogrifier::namedFileToPixelMap(const std::string& inputImgName, std::ostrea
 	image.magick( "PPM" );
 	image.write( &blob );
 	ppmStream << (char*) blob.data();
-
-	// Writing PGM stream
-	image.magick( "PGM" );
-	image.write( &blob );
-	pgmStream << (char*) blob.data();
 }
 
 void
-transmogrifier::writeImage(const std::stringstream& ppmStream, const std::string& pngImgName)
+transmogrifier::pixelMapToStream(const std::stringstream& ppmStream, std::ostream& outStream, const std::string& outputFormat)
+{
+	std::string str = ppmStream.str();
+	Magick::Blob blob( (void*) str.c_str(), str.length());
+
+	Magick::Image image( blob );
+	image.magick( outputFormat );
+
+	image.write( &blob );
+	outStream.write((char*) blob.data(), blob.length());
+}
+
+void
+transmogrifier::pixelMapToNamedFile(const std::stringstream& ppmStream, const std::string& pngImgName)
 {
 	std::string str = ppmStream.str();
 	Magick::Blob blob( (void*) str.c_str(), str.length());
