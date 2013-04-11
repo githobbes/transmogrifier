@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-using transmogrifier::log;
+using transmogrifier::error;
 
 void
 transmogrifier::streamToPixelMap(const std::istream& inputStream, std::ostream& ppmStream)
@@ -38,12 +38,12 @@ transmogrifier::namedFileToPixelMap(const std::string& inputImgName, std::ostrea
 	try {
 		image.read(inputImgName);
 	}
-	catch( Magick::ErrorFileOpen  &error ) {
-		log() << inputImgName << ": image file cannot be opened" << std::endl;
+	catch( Magick::ErrorFileOpen& e) {
+		error() << inputImgName << ": image file cannot be opened" << std::endl;
 		std::exit(1);
 	}
-	catch( Magick::ErrorCorruptImage &error ) {
-		log() << inputImgName << ": image file corrupt" << std::endl;
+	catch( Magick::ErrorCorruptImage& e ) {
+		error() << inputImgName << ": image file corrupt" << std::endl;
 		std::exit(1);
 	}
 
@@ -69,8 +69,14 @@ transmogrifier::pixelMapToStream(const std::stringstream& ppmStream, std::ostrea
 
 	Magick::Image image( blob );
 	image.magick( outputFormat );
+	try {
+		image.write( &blob );
+	}
+	catch (Magick::ErrorMissingDelegate& e) {
+		error() << "Output image format `" << outputFormat << "' is unsupported" << std::endl;
+		std::exit(1);
+	}
 
-	image.write( &blob );
 	outStream.write((char*) blob.data(), blob.length());
 }
 

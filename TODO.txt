@@ -1,7 +1,5 @@
 Yet To Do:
 
-    Handle Magick errors for output format
-
     Revise variable names
 
     Use an istream/ostream instead of stringstreams
