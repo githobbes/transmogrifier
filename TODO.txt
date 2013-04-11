@@ -1,8 +1,12 @@
 Yet To Do:
 
-   Add support for receiving input on stdin and outputting to stdout (will help with web version a lot)
-       stdin is done
-       stdout will require explicitly stating the format on the command-line
+    Check for --output-format errors
+
+    Handle Magick errors for output format
+
+    Revise variable names
+
+    Use an istream/ostream instead of stringstreams
 
     Remove hacky compilation with boost-program-options (IT'S BAD!!!!!!!!!!!!)
     Windows compatability
