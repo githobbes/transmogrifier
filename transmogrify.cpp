@@ -8,8 +8,8 @@
 #include <sstream>
 
 void
-transmogrifier::init(char *argv[]) {
-    Magick::InitializeMagick(*argv);
+transmogrifier::init() {
+    Magick::InitializeMagick(NULL);
 }
 
 void

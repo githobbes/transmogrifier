@@ -6,7 +6,7 @@
 namespace transmogrifier {
 
 void
-init(char *argv[]);
+init();
 
 void
 streamToStream(const std::istream& inputSteam, std::ostream& outStream, const std::string& outputFormat, unsigned iterations);
