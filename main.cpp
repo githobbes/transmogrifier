@@ -20,7 +20,7 @@ generateUsage(const char *progName, const po::options_description &options) {
 int
 main (int argc, char *argv[])
 {
-    transmogrifier::init(argv);
+    transmogrifier::init();
 
 	transmogrifier::programName = argv[0];
 
