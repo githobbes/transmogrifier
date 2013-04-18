@@ -5,43 +5,47 @@ from __future__ import print_function
 import os
 import os.path
 import sys
-import subprocess
 
-
-def get_gm_flags(for_flag):
-    # Python 2.7
-    # return subprocess.check_output(['GraphicsMagick++-config', '--' + for_flag])
-    # Python 2.6 compatibiliy
-    flags = subprocess.Popen(
-        ['GraphicsMagick++-config', '--' + for_flag],
-        stdout=subprocess.PIPE).communicate()[0]
-    # Strip newlines off the end.
-    return flags.rstrip('\n')
-
+# TODO: Make this a configurable command-line option.
 local_dir = os.path.join(os.environ['HOME'], '.local')
+
 local_include_dir = os.path.join(local_dir, 'include')
+local_gm_include_dir = os.path.join(local_include_dir, 'GraphicsMagick')
 local_lib_dir = os.path.join(local_dir, 'lib')
+# THE ORDER OF THESE DOES MATTER!!!
+gm_libs = Split('GraphicsMagick++ GraphicsMagick lcms tiff freetype jasper jpeg png12 Xext SM ICE X11 bz2 xml2 z m gomp pthread')
 
 env = Environment(
-    CXXFLAGS=get_gm_flags('cxxflags'),
-    _CPPINCFLAGS=get_gm_flags('cppflags') + ' -I' + local_include_dir,
-    _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
-    _LIBFLAGS=get_gm_flags('libs'))
+    CXXFLAGS='-pthread',
+    CPPPATH=[local_include_dir, local_gm_include_dir], # ,'/usr/include/python2.6'],
+    LIBPATH=[local_lib_dir])
 
-# Inherit the PATH for use with GraphicsMagick++-config.
-env.Append(PATH=os.environ['PATH'])
 # Inherit CXX from the environment if it is set.
 try:
     env.Replace(CXX=os.environ['CXX'])
 except KeyError:
     pass
 
-main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')])
+transmogrify = env.StaticLibrary(
+    target='transmogrify',
+    source=['transmogrify.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp'])
+
+main = env.Program(
+    target='main',
+    # Specify the full path to the static library to link with that and not the dynamic library.
+    source=['main.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')],
+    LIBS=[transmogrify] + gm_libs)
+
 
 chuck = env.Program(target='chuck', source=['mainChuck.cpp'],
                     CPPPATH='#/vendor/include/eigen3')
 
-transmogrify = env.StaticLibrary(target='transmogrify', source=['transmogrify.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp'])
+transmogripy = env.SharedLibrary(
+    target='transmogripy', source=['transmogripy.cpp', transmogrify],
+    #LIBS=['boost_python', 'transmogrify'],
+    SHLIBPREFIX='',
+    #CPPPATH='/usr/include/python2.6'
+)
 
 #penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
 

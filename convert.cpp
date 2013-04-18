@@ -81,12 +81,12 @@ transmogrifier::pixelMapToStream(const std::stringstream& ppmStream, std::ostrea
 }
 
 void
-transmogrifier::pixelMapToNamedFile(const std::stringstream& ppmStream, const std::string& pngImgName)
+transmogrifier::pixelMapToNamedFile(const std::stringstream& ppmStream, const std::string& outputImgName)
 {
 	std::string str = ppmStream.str();
 	Magick::Blob blob( (void*) str.c_str(), str.length());
 
 	Magick::Image image( blob );
 
-	image.write(pngImgName);
+	image.write(outputImgName);
 }

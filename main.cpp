@@ -1,11 +1,12 @@
-#include "convert.hpp"
-#include "algorithms.hpp"
 #include "logging.hpp"
+#include "transmogrify.hpp"
+
 #include <Magick++.h>
+#include <boost/program_options.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
 
@@ -19,7 +20,7 @@ generateUsage(const char *progName, const po::options_description &options) {
 int
 main (int argc, char *argv[])
 {
-	Magick::InitializeMagick(*argv);
+    transmogrifier::init(argv);
 
 	transmogrifier::programName = argv[0];
 
@@ -64,6 +65,7 @@ main (int argc, char *argv[])
 
 	std::string inputImgName = vm["input-image"].as<std::string>();
 	std::string outputImgName = vm["output-image"].as<std::string>();
+	unsigned iterations = vm["iterations"].as<unsigned>();
 
 	if (outputImgName == "-" && vm.count("output-format") == 0) {
 		transmogrifier::error() << "Must pass `--output-format' when output is sent to stdout (`--output-image' is \"-\")" << std::endl;
@@ -74,26 +76,19 @@ main (int argc, char *argv[])
 		transmogrifier::error() << "Must pass `--output-format' ONLY when output is sent to stdout (`--output-image' is \"-\")" << std::endl;
 		return 1;
 	}
-
-	// Convert image to PPM
-	std::stringstream ppmStream;
-	if (inputImgName == "-")
-		transmogrifier::streamToPixelMap(std::cin, ppmStream);
-	else
-		transmogrifier::namedFileToPixelMap(inputImgName, ppmStream);
-
-
-	// Create output file
-	std::stringstream outputImg;
-
-	// Run algorithm on PPM input to produce PPM
-	transmogrifier::penroseChuck(ppmStream, outputImg, vm["iterations"].as<unsigned>());
-
-	// Convert PPM to PNG
-	if (outputImgName == "-") {
-		transmogrifier::pixelMapToStream(outputImg, std::cout, vm["output-format"].as<std::string>());
-	} else
-		transmogrifier::pixelMapToNamedFile(outputImg, outputImgName);
+       
+	if (inputImgName == "-") {
+	    if (outputImgName == "-")
+		transmogrifier::streamToStream(std::cin, std::cout, vm["output-format"].as<std::string>(), iterations);
+	    else
+		transmogrifier::streamToNamedFile(std::cin, outputImgName, iterations);
+	}
+	else {
+	    if (outputImgName == "-")
+		transmogrifier::namedFileToStream(inputImgName, std::cout, vm["output-format"].as<std::string>(), iterations);
+	    else
+		transmogrifier::namedFileToNamedFile(inputImgName, outputImgName, iterations);
+	}
 
 	return 0;
 }

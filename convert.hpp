@@ -16,6 +16,6 @@ void
 pixelMapToStream(const std::stringstream& ppmStream, std::ostream& outStream, const std::string& outputFormat);
 
 void
-pixelMapToNamedFile(const std::stringstream& ppmStream, const std::string& pngImgName);
+pixelMapToNamedFile(const std::stringstream& ppmStream, const std::string& outputImgName);
 }
 #endif /* CONVERT_HPP */
