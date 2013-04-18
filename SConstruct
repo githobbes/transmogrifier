@@ -18,7 +18,16 @@ def get_gm_flags(for_flag):
     # Strip newlines off the end.
     return flags.rstrip('\n')
 
-env = Environment()
+local_dir = os.path.join(os.environ['HOME'], '.local')
+local_include_dir = os.path.join(local_dir, 'include')
+local_lib_dir = os.path.join(local_dir, 'lib')
+
+env = Environment(
+    CXXFLAGS=get_gm_flags('cxxflags'),
+    _CPPINCFLAGS=get_gm_flags('cppflags') + ' -I' + local_include_dir,
+    _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
+    _LIBFLAGS=get_gm_flags('libs'))
+
 # Inherit the PATH for use with GraphicsMagick++-config.
 env.Append(PATH=os.environ['PATH'])
 # Inherit CXX from the environment if it is set.
@@ -27,22 +36,17 @@ try:
 except KeyError:
     pass
 
-local_dir = os.path.join(os.environ['HOME'], '.local')
-local_include_dir = os.path.join(local_dir, 'include')
-local_lib_dir = os.path.join(local_dir, 'lib')
-
-main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')],
-                   CXXFLAGS=get_gm_flags('cxxflags'),
-                   _CPPINCFLAGS=get_gm_flags('cppflags') + ' -I' + local_include_dir,
-                   _LIBDIRFLAGS=get_gm_flags('ldflags') + ' -L' + local_lib_dir,
-                   _LIBFLAGS=get_gm_flags('libs'))
+main = env.Program(target='main', source=['main.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp', os.path.join(local_lib_dir, 'libboost_program_options.a')])
 
 chuck = env.Program(target='chuck', source=['mainChuck.cpp'],
                     CPPPATH='#/vendor/include/eigen3')
 
-# penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
+transmogrify = env.StaticLibrary(target='transmogrify', source=['transmogrify.cpp', 'convert.cpp', 'algorithms.cpp', 'pixel.cpp', 'logging.cpp'])
+
+#penrose = env.Program(target='penrose', source=['mainPenrose.cpp', 'pixel.cpp'])
 
 env.Default(main)
+
 
 # Extra commands
 
