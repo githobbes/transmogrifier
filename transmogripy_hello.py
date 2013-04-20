@@ -1,8 +1,16 @@
 #!/usr/bin/env python
+from Tkinter import Tk
+from tkFileDialog import askopenfilename
+from PIL import Image
 import sys
 
 import transmogripy
 
-transmogripy.init()
+Tk().withdraw()
+imageFileName = askopenfilename()
 
-transmogripy.named_file_to_named_file('../testData/penrose-young.jpg', 'out.png', 8)
+transmogripy.init()
+transmogripy.named_file_to_named_file(imageFileName, 'out.png', 8)
+
+im = Image.open('out.png')
+im.show()
